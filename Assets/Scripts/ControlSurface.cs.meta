@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 61ed8f099fa752e469fb442b3f92d371
-timeCreated: 1484950900
+timeCreated: 1485021372
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - needlePool: {instanceID: 0}
+  - panelTexture: {fileID: 2800000, guid: 85d9c91098cff984cb7493cc8325d375, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControlSurface : MonoBehaviour {
 
-	const float MESH_ELEMENT_SIZE = 0.2f;
+	const float MESH_ELEMENT_SIZE = 0.5f;
 
 	private Mesh myMesh;
 
@@ -17,9 +17,9 @@ public class ControlSurface : MonoBehaviour {
 	private int gridSizeZ;
 
 	private GameObject[,] gridNeedles;
-	public GameObject needlePool;
+    public GameObject needlePool;
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
 		myMesh = GetComponent<MeshFilter>().mesh;
 
@@ -42,6 +42,8 @@ public class ControlSurface : MonoBehaviour {
 			}
 		}
 
+        SetPanelTexture("PanelTextures/path4315");
+
 		// Create model
 		myModel = new ModelSurface(gridSizeX, gridSizeZ); 
 	}
@@ -63,16 +65,9 @@ public class ControlSurface : MonoBehaviour {
 				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 
 				Vector3 gradient = myModel.getGradientAtPoint (x, z);
-				float rotAngle = Mathf.Atan2 (gradient.x, gradient.y) *  Mathf.Rad2Deg;
-				//Quaternion quat = Quaternion.LookRotation (gradient);
-				//Quaternion quat = Quaternion.AngleAxis(rotAngle, new Vector3(0f, 1f, 0f));
-				//gridNeedles [x, z].transform.localRotation = quat;
-			
 
 				Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
 				Quaternion q2 = Quaternion.FromToRotation (new Vector3 (1f, 0f, 0f), new Vector3(gradient.x, gradient.z, 0f));
-				//Quaternion q2 = Quaternion.AngleAxis (45f, new Vector3 (0f, 0f, 1f))
-
 				gridNeedles [x, z].transform.localRotation = q1 * q2;
 			}
 		}
@@ -90,26 +85,30 @@ public class ControlSurface : MonoBehaviour {
 		needle.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
 		 
 		Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
-		//Quaternion q2 = Quaternion.AngleAxis (45f, new Vector3 (0f, 0f, 1f));
 		needle.transform.localRotation = q1;
 
-		//needle.transform.localRotation = Quaternion.AngleAxis (45f, new Vector3 (0f, 0f, 1f));
-
-		//needle.transform.Rotate (90f, 0f, 0f);
 
 		needle.tag = "Needle";
-
-		Texture2D texture = Resources.Load("line") as Texture2D;
-		needle.GetComponent<Renderer> ().material.shader = Shader.Find("Particles/Additive");
-		needle.GetComponent<Renderer> ().material.SetColor ("_Transparent", Color.clear);
-		needle.GetComponent<Renderer> ().material.mainTexture = texture;
-		//needle.GetComponent<SphereCollider>().enabled = false;
-
 
 		return needle;
 	}
 
-	public Vector3 getGradientAtPosition(Vector3 transformPos) {
+    public void SetPanelTexture(string texturePath)
+    {
+        var texture = Resources.Load(texturePath) as Texture2D;
+
+        foreach (var needle in gridNeedles)
+        {  
+            needle.GetComponent<Renderer>().material.shader = Shader.Find("Unlit/Transparent");
+            needle.GetComponent<Renderer>().material.SetColor("_Transparent", Color.clear);
+            needle.GetComponent<Renderer>().material.mainTexture = texture;
+        }
+
+
+    }
+
+
+    public Vector3 getGradientAtPosition(Vector3 transformPos) {
 		float xPos = transformPos.x;
 		float zPos = transformPos.z;
 
