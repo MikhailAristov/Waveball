@@ -58,8 +58,22 @@ public class ControlSurface : MonoBehaviour {
 				//Vector3 myPos = gridNeedles[x, z].transform.position;
 				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
 				//gridNeedles[x, z].transform.position = newPos;
-				float scaleFactor = 0.1f + myModel.vertPos[x, z] / 2f;
+
+				float scaleFactor = 0.3f + myModel.vertPos[x, z] / 2f;
 				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+
+				Vector3 gradient = myModel.getGradientAtPoint (x, z);
+				float rotAngle = Mathf.Atan2 (gradient.x, gradient.y) *  Mathf.Rad2Deg;
+				//Quaternion quat = Quaternion.LookRotation (gradient);
+				//Quaternion quat = Quaternion.AngleAxis(rotAngle, new Vector3(0f, 1f, 0f));
+				//gridNeedles [x, z].transform.localRotation = quat;
+			
+
+				Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
+				Quaternion q2 = Quaternion.FromToRotation (new Vector3 (1f, 0f, 0f), new Vector3(gradient.x, gradient.z, 0f));
+				//Quaternion q2 = Quaternion.AngleAxis (45f, new Vector3 (0f, 0f, 1f))
+
+				gridNeedles [x, z].transform.localRotation = q1 * q2;
 			}
 		}
 	}
@@ -74,7 +88,14 @@ public class ControlSurface : MonoBehaviour {
 		needle.transform.parent = needlePool.transform;
 		needle.transform.localPosition = originPoint;
 		needle.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
-		needle.transform.Rotate (90f, 0f, 0f);
+		 
+		Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
+		//Quaternion q2 = Quaternion.AngleAxis (45f, new Vector3 (0f, 0f, 1f));
+		needle.transform.localRotation = q1;
+
+		//needle.transform.localRotation = Quaternion.AngleAxis (45f, new Vector3 (0f, 0f, 1f));
+
+		//needle.transform.Rotate (90f, 0f, 0f);
 
 		needle.tag = "Needle";
 
