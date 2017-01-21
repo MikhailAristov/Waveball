@@ -8,7 +8,6 @@ public class ControlSurface : MonoBehaviour {
 	public float viscosity = 2.0f;
 	public float dampening = 0.2f;
 	public float waveSpread = 5.0f;
-	private Mesh myMesh;
 
 	private ModelSurface myModel;
 
@@ -23,7 +22,7 @@ public class ControlSurface : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
-		myMesh = GetComponent<MeshFilter>().mesh;
+		var myMesh = GetComponent<MeshFilter>().sharedMesh;
 
 		Debug.Log(myMesh.bounds);
 
