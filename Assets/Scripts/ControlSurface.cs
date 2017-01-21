@@ -47,9 +47,9 @@ public class ControlSurface : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		// Model
-		myModel.update(Time.deltaTime);
+		myModel.update(Time.fixedDeltaTime);
 		// Graphic
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
@@ -73,5 +73,15 @@ public class ControlSurface : MonoBehaviour {
 		needle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 		needle.GetComponent<SphereCollider>().enabled = false;
 		return needle;
+	}
+
+	public Vector3 getGradientAtPosition(Vector3 transformPos) {
+		float xPos = transformPos.x;
+		float zPos = transformPos.z;
+
+		int xGrid = Mathf.RoundToInt(xPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeX / 2);
+		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
+
+		return myModel.getGradientAtPoint(xGrid, zGrid);
 	}
 }
