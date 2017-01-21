@@ -19,6 +19,7 @@ public class ControlSurface : MonoBehaviour
 
 	public GameObject[,] gridPanels;
 	public GameObject PanelPool;
+	public GameObject PrefabPanel;
 
 	// Use this for initialization
 	void Start()
@@ -41,29 +42,32 @@ public class ControlSurface : MonoBehaviour
 			}
 		}
 
-		SetPanelTexture("PanelTextures/default");
+		SetPanelTexture ( "PanelTextures/default" );
 
 		// Create model
 		myModel = new ModelSurface ( gridSizeX, gridSizeZ );
 	}
 
-	void Update() {
-		if(Input.GetButton("Reset")) {
-			myModel.reset();
+	void Update()
+	{
+		if ( Input.GetButton ( "Reset" ) )
+		{
+			myModel.reset ();
 		}
 		// Graphic
+		Quaternion q1 = Quaternion.LookRotation ( -Vector3.up );
 		for ( int x = 0; x < gridSizeX; x++ )
 		{
 			for ( int z = 0; z < gridSizeZ; z++ )
 			{
-				float scaleFactor = 0.3f + myModel.vertPos[x, z] / 2f;
-				gridPanels[x, z].transform.localScale = new Vector3 ( scaleFactor, scaleFactor, 1f );
+				var trans = gridPanels[x, z].transform;
+				float scaleFactor = Mathf.Max ( 0f, 0.3f + myModel.vertPos[x, z] / 2f );
+				trans.localScale = new Vector3 ( scaleFactor, 1f, scaleFactor );
 
 				Vector3 gradient = myModel.getGradientAtPoint ( x, z );
 
-				Quaternion q1 = Quaternion.AngleAxis ( 90f, new Vector3 ( 1f, 0f, 0f ) );
 				Quaternion q2 = Quaternion.FromToRotation ( new Vector3 ( 1f, 0f, 0f ), new Vector3 ( gradient.x, gradient.z, 0f ) );
-				gridPanels[x, z].transform.localRotation = q1 * q2;
+				trans.localRotation = q1 * q2;
 			}
 		}
 	}
@@ -74,28 +78,22 @@ public class ControlSurface : MonoBehaviour
 		// Model
 		myModel.update ( Time.fixedDeltaTime, viscosity, dampening, waveSpread );
 	}
-	
+
 	private GameObject makePanel(int x, int z)
 	{
 		float xPos = (x - Mathf.Ceil ( gridSizeX / 2 )) * MESH_ELEMENT_SIZE;
 		float zPos = (z - Mathf.Ceil ( gridSizeZ / 2 )) * MESH_ELEMENT_SIZE;
 		Vector3 originPoint = new Vector3 ( xPos, 0.1f, zPos );
 
-		GameObject panel = GameObject.CreatePrimitive ( PrimitiveType.Quad );
-		panel.name = "Panel[" + x.ToString () + "][" + z.ToString () + "]";
+		GameObject panel = Instantiate<GameObject> ( PrefabPanel );
+		panel.name = "Panel[" + x + "][" + z + "]";
 		panel.transform.parent = PanelPool.transform;
 		panel.transform.localPosition = originPoint;
-		panel.transform.localScale = new Vector3 ( 0.3f, 0.3f, 1f );
+		
+		panel.transform.localScale = new Vector3 ( 0.3f, 1f, 0.3f );
+		panel.transform.localRotation = Quaternion.identity;
 
-		Quaternion q1 = Quaternion.AngleAxis ( 90f, new Vector3 ( 1f, 0f, 0f ) );
-		panel.transform.localRotation = q1;
-
-		panel.AddComponent (typeof(ControlPanel));
-
-
-		panel.tag = "Panel";
-
-		return panel;
+		return panel.transform.Find ( "Model" ).gameObject;
 	}
 
 	public void SetPanelTexture(string texturePath)
@@ -103,9 +101,10 @@ public class ControlSurface : MonoBehaviour
 		var texture = Resources.Load ( texturePath ) as Texture2D;
 		foreach ( var panel in gridPanels )
 		{
-			panel.GetComponent<Renderer> ().material.shader = Shader.Find ( "Unlit/Transparent" );
-			panel.GetComponent<Renderer> ().material.SetColor ( "_Transparent", Color.clear );
-			panel.GetComponent<Renderer> ().material.mainTexture = texture;
+			var renderer = panel.GetComponent<Renderer> ();
+			renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
+			renderer.material.SetColor ( "_Transparent", Color.clear );
+			renderer.material.mainTexture = texture;
 		}
 	}
 	
