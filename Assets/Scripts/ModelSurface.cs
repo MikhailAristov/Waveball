@@ -54,7 +54,6 @@ public class ModelSurface {
 
 	public void update(float deltaTime, float springRateDividedByMass, float dampening, float wavePropagationSpeed) {
 		// Propagation prepare
-		Array.Clear(vertDeltas, 0, gridSizeX * gridSizeZ);
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
 				vertDeltas[x, z] = getDeltaAtPoint(x, z);
