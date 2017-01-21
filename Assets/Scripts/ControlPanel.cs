@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Panel : MonoBehaviour {
+public class ControlPanel : MonoBehaviour {
 
-	// Use this for initialization
+	public PanelFogState State{ get; set;}
+
 	void Start () {
-		
+		State = PanelFogState.Undiscovered;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}

@@ -90,6 +90,8 @@ public class ControlSurface : MonoBehaviour
 		Quaternion q1 = Quaternion.AngleAxis ( 90f, new Vector3 ( 1f, 0f, 0f ) );
 		panel.transform.localRotation = q1;
 
+		panel.AddComponent (typeof(ControlPanel));
+
 
 		panel.tag = "Panel";
 

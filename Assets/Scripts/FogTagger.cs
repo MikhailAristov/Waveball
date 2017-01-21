@@ -28,26 +28,24 @@ public class FogTagger: MonoBehaviour {
 //		foreach (var particle in controlSpawn.particlePool) {
 //			Debug.Log(particle);
 //		}
-		/*
 
 		GameObject particle = controlSpawn.particle;
+		Debug.Log (particle);
 		Vector3 particleGridCoord = controlSurface.worldPosToGrid (particle.transform.position.x, particle.transform.position.z);
 
 		// update previous visibility
-
 		for (int x = 0; x < panels.GetLength(0); x++) {
 			for (int z = 0; z < panels.GetLength(1); z++) {
 				GameObject panel = panels [x, z];
-
-				if (panel.tag.Equals("InSight")) {
-					panel.tag = "Discovered";
+				if (panel.GetComponent<ControlPanel> ().State == PanelFogState.InSight) {
+					panel.GetComponent<ControlPanel> ().State = PanelFogState.Discovered;
 				}
 				if (isInRange(particleGridCoord, new Vector3(x, 0, z))) {
-					panel.tag = "InSight";
+					panel.GetComponent<ControlPanel> ().State = PanelFogState.InSight;
 				}
 			}
 		}
-	*/
+	
 		/*
 		GameObject particle = controlSpawn.particle;
 		Vector3 gridCoord = controlSurface.worldPosToGrid (particle.transform.position.x, particle.transform.position.z);
