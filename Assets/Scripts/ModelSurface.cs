@@ -30,7 +30,7 @@ public class ModelSurface {
 
 	public float[,] vertPos;
 	public float[,] vertVel;
-	float[,] vertDeltas;
+	public float[,] vertDeltas;
 
 	public bool[,] obstactleMap;
 	public bool[,] oscillatorMap;
@@ -50,6 +50,13 @@ public class ModelSurface {
 				obstactleMap[x, z] = (x == 0 || x == gridSizeX - 1 || z == 0 || z == gridSizeZ - 1);
 			}
 		}
+	}
+
+	public void reset() {
+		Array.Clear(vertPos, 0, gridSizeX * gridSizeZ);
+		Array.Clear(vertVel, 0, gridSizeX * gridSizeZ);
+		Array.Clear(vertDeltas, 0, gridSizeX * gridSizeZ);
+		Array.Clear(oscillatorMap, 0, gridSizeX * gridSizeZ);
 	}
 
 	public void update(float deltaTime, float springRateDividedByMass, float dampening, float wavePropagationSpeed) {
@@ -109,7 +116,6 @@ public class ModelSurface {
 			return gradient;
 		}
 
-
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
 				int lookAtIndexX = xPos + i - 1;
@@ -126,8 +132,10 @@ public class ModelSurface {
 	}
 
 	public void setPulseAtPoint(int xPos, int zPos, float pulseForce) {
-		vertVel[xPos, zPos] = -pulseForce;
-		vertPos[xPos, zPos] -= POSITION_THRESHOLD * 10;
+		if(!oscillatorMap[xPos, zPos]) {
+			vertVel[xPos, zPos] = -pulseForce;
+			vertPos[xPos, zPos] -= POSITION_THRESHOLD * 10;
+		}
 	}
 		
 	public void toggleOscillatorAtPosition(int xPos, int zPos, float amplitude) {
