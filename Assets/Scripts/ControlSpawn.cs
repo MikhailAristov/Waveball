@@ -7,6 +7,7 @@ public class ControlSpawn : MonoBehaviour {
 	public bool spawnActive = true;
 
 	public GameObject surface;
+	public GameObject particlePool;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,8 @@ public class ControlSpawn : MonoBehaviour {
 			GameObject particle = Instantiate(prefabParticle, spawnPos, Quaternion.identity);
 			particle.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
 			particle.GetComponent<ControlParticle>().surface = this.surface;
+
+			particle.transform.parent = particlePool.transform;
 			// Then wait
 			yield return new WaitForSeconds(2.0f);
 		}

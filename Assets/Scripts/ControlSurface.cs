@@ -18,7 +18,7 @@ public class ControlSurface : MonoBehaviour {
 	private int gridSizeX;
 	private int gridSizeZ;
 
-	private GameObject[,] gridPanels;
+	public GameObject[,] gridPanels;
     public GameObject PanelPool;
 
     // Use this for initialization

@@ -3,19 +3,18 @@ using System.Collections;
 
 public class FogTagger: MonoBehaviour {
 
-	float[,] panels;
+	GameObject[,] panels;
 
 
 	void Start() {
-		//panels = GetComponent<ControlSurface>().needlePool;
-
+		panels = GetComponent<ControlSurface> ().gridPanels;
 		foreach (var panel in panels) {
-			//panel.tag 
+			panel.tag = "Undiscovered";
 		}
 	}
 
 
 	void Update() {
-
+		//GameObject particle = GetComponent<GameObject> ("Particle(Clone)");
 	}
 }
