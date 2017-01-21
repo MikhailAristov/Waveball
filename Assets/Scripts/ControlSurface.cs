@@ -48,7 +48,7 @@ public class ControlSurface : MonoBehaviour {
 	void Update() {
 		if(myModel == null) { return; }
 
-		if(Input.GetButton("Submit")) {
+		if(Input.GetButton("Reset")) {
 			myModel.reset();
 		}
 	}

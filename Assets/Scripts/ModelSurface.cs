@@ -56,6 +56,7 @@ public class ModelSurface {
 		Array.Clear(vertPos, 0, gridSizeX * gridSizeZ);
 		Array.Clear(vertVel, 0, gridSizeX * gridSizeZ);
 		Array.Clear(vertDeltas, 0, gridSizeX * gridSizeZ);
+		Array.Clear(oscillatorMap, 0, gridSizeX * gridSizeZ);
 	}
 
 	public void update(float deltaTime, float springRateDividedByMass, float dampening, float wavePropagationSpeed) {
