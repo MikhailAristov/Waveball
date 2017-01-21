@@ -16,15 +16,16 @@ public class ControlSpawn : MonoBehaviour {
 
 	private IEnumerator keepSpawningParticles() {
 		while(spawnActive) {
-			GameObject prefabParticle = Resources.Load("Particle") as GameObject;
-			Vector3 spawnPos = transform.position + transform.up * 0.7f;
-			GameObject particle = Instantiate(prefabParticle, spawnPos, Quaternion.identity);
-			particle.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
-			particle.GetComponent<ControlParticle>().surface = this.surface;
-
-			particle.transform.parent = particlePool.transform;
+			if(GameObject.FindGameObjectsWithTag("Player").Length <= 0) {
+				GameObject prefabParticle = Resources.Load("Particle") as GameObject;
+				Vector3 spawnPos = transform.position + transform.up * 0.7f;
+				GameObject particle = Instantiate(prefabParticle, spawnPos, Quaternion.identity);
+				particle.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
+				particle.GetComponent<ControlParticle>().surface = this.surface;
+				particle.transform.parent = particlePool.transform;
+			}
 			// Then wait
-			yield return new WaitForSeconds(2.0f);
+			yield return new WaitForSeconds(1.0f);
 		}
 	}
 }

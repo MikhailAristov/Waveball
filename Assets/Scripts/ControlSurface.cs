@@ -6,7 +6,7 @@ public class ControlSurface : MonoBehaviour {
 
 	const float MESH_ELEMENT_SIZE = 0.5f;
 	public float viscosity = 2.0f;
-	public float dampening = 0.2f;
+	public float dampening = 0.8f;
 	public float waveSpread = 5.0f;
 
 	private ModelSurface myModel;
@@ -24,16 +24,11 @@ public class ControlSurface : MonoBehaviour {
 	void Start () {
 		var myMesh = GetComponent<MeshFilter>().sharedMesh;
 
-		Debug.Log(myMesh.bounds);
-
 		meshSizeX = myMesh.bounds.extents.x * 2f;
 		meshSizeZ = myMesh.bounds.extents.z * 2f;
 
 		gridSizeX = (int)Mathf.Floor(meshSizeX / MESH_ELEMENT_SIZE) + 1;
 		gridSizeZ = (int)Mathf.Floor(meshSizeZ / MESH_ELEMENT_SIZE) + 1;
-
-		Debug.Log(gridSizeX);
-		Debug.Log(gridSizeZ);
 
 		// Create Panels
 		gridPanels = new GameObject[gridSizeX, gridSizeZ];
@@ -43,12 +38,20 @@ public class ControlSurface : MonoBehaviour {
 			}
 		}
 
-		SetPanelTexture("PanelTextures/Waveball_Panels_Symbol2");
+		SetPanelTexture("PanelTextures/default");
 
 		// Create model
 		myModel = new ModelSurface(gridSizeX, gridSizeZ); 
 	}
-	
+
+	void Update() {
+		if(myModel == null) { return; }
+
+		if(Input.GetButton("Reset")) {
+			myModel.reset();
+		}
+	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		if(myModel == null) { return; }
@@ -58,10 +61,6 @@ public class ControlSurface : MonoBehaviour {
 		// Graphic
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
-				//Vector3 myPos = grids[x, z].transform.position;
-				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
-				//gridPanels[x, z].transform.position = newPos;
-
 				float scaleFactor = 0.3f + myModel.vertPos[x, z] / 2f;
 				gridPanels[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 
@@ -104,8 +103,6 @@ public class ControlSurface : MonoBehaviour {
 			panel.GetComponent<Renderer>().material.SetColor("_Transparent", Color.clear);
 			panel.GetComponent<Renderer>().material.mainTexture = texture;
         }
-
-
     }
 
 
