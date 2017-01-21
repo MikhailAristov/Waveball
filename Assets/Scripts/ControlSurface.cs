@@ -48,11 +48,16 @@ public class ControlSurface : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// Model
+		myModel.update(Time.deltaTime);
+		// Graphic
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
-				Vector3 myPos = gridNeedles[x, z].transform.position;
-				Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
-				gridNeedles[x, z].transform.position = newPos;
+				//Vector3 myPos = gridNeedles[x, z].transform.position;
+				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
+				//gridNeedles[x, z].transform.position = newPos;
+				float scaleFactor = 0.1f + myModel.vertPos[x, z] / 2f;
+				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 			}
 		}
 	}
