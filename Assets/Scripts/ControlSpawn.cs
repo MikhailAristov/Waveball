@@ -18,7 +18,7 @@ public class ControlSpawn : MonoBehaviour {
 			GameObject prefabParticle = Resources.Load("Particle") as GameObject;
 			Vector3 spawnPos = transform.position + transform.up * 0.7f;
 			GameObject particle = Instantiate(prefabParticle, spawnPos, Quaternion.identity);
-			particle.GetComponent<Rigidbody>().velocity = transform.up * 5.0f;
+			particle.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
 			particle.GetComponent<ControlParticle>().surface = this.surface;
 			// Then wait
 			yield return new WaitForSeconds(2.0f);
