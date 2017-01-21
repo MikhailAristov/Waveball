@@ -48,6 +48,8 @@ public class ControlSurface : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if(myModel == null) { return; }
+
 		// Model
 		myModel.update(Time.fixedDeltaTime);
 		// Graphic
@@ -56,8 +58,8 @@ public class ControlSurface : MonoBehaviour {
 				//Vector3 myPos = gridNeedles[x, z].transform.position;
 				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
 				//gridNeedles[x, z].transform.position = newPos;
-				float scaleFactor = 0.1f + myModel.vertPos[x, z] / 2f;
-				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+				float scaleFactor = 0.2f + myModel.vertPos[x, z] / 2f;
+				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, 0.2f, scaleFactor);
 			}
 		}
 	}
@@ -71,7 +73,8 @@ public class ControlSurface : MonoBehaviour {
 		needle.transform.parent = needlePool.transform;
 		needle.transform.localPosition = originPoint;
 		needle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-		needle.GetComponent<SphereCollider>().enabled = false;
+		needle.tag = "Needle";
+		//needle.GetComponent<SphereCollider>().enabled = false;
 		return needle;
 	}
 
@@ -83,5 +86,25 @@ public class ControlSurface : MonoBehaviour {
 		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
 
 		return myModel.getGradientAtPoint(xGrid, zGrid);
+	}
+
+	public void setPulseAtPosition(Vector3 transformPos, float pulseForce) {
+		float xPos = transformPos.x;
+		float zPos = transformPos.z;
+
+		int xGrid = Mathf.RoundToInt(xPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeX / 2);
+		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
+
+		myModel.setPulseAtPoint(xGrid, zGrid, pulseForce);
+	}
+
+	public void toggleOscillatorAtPosition(Vector3 transformPos, float pulseForce) {
+		float xPos = transformPos.x;
+		float zPos = transformPos.z;
+
+		int xGrid = Mathf.RoundToInt(xPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeX / 2);
+		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
+
+		myModel.toggleOscillatorAtPosition(xGrid, zGrid, pulseForce);
 	}
 }

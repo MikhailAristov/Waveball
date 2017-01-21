@@ -13,19 +13,19 @@ public class ModelSurface {
 
 	private float[,] SPREAD_MATRIX = new float[3, 3] {
 		{0.103553391f, 0.146446609f, 0.103553391f}, // Magic...
-		{0.146446609f, 0.000000000f, 0.146446609f}, 
+		{0.146446609f, 0.000000000f, 0.146446609f},
 		{0.103553391f, 0.146446609f, 0.103553391f}
 	};
 
 	private float[,] X_GRADIENT_MATRIX = new float[3, 3] {
 		{-1f/6f, 0f, 1f/6f}, // Previtt
-		{-1f/6f, 0f, 1f/6f}, 
+		{-1f/6f, 0f, 1f/6f},
 		{-1f/6f, 0f, 1f/6f}
 	};
 
 	private float[,] Z_GRADIENT_MATRIX = new float[3, 3] {
 		{-1f/6f, -1f/6f, -1f/6f}, // Previtt
-		{0f, 0f, 0f}, 
+		{0f, 0f, 0f},
 		{1f/6f, 1f/6f, 1f/6f}
 	};
 
@@ -36,6 +36,7 @@ public class ModelSurface {
 	public float[,] vertVel;
 
 	public bool[,] obstactleMap;
+	public bool[,] oscillatorMap;
 
 	public ModelSurface(int sizeX, int sizeZ) {
 		gridSizeX = sizeX;
@@ -44,10 +45,7 @@ public class ModelSurface {
 		vertPos = new float[sizeX, sizeZ];
 		vertVel = new float[sizeX, sizeZ];
 		obstactleMap = new bool[sizeX, sizeZ];
-
-		Array.Clear(vertPos, 0, sizeX * sizeZ);
-		Array.Clear(vertVel, 0, sizeX * sizeZ);
-		Array.Clear(obstactleMap, 0, sizeX * sizeZ);
+		oscillatorMap = new bool[sizeX, sizeZ];
 
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
@@ -55,7 +53,13 @@ public class ModelSurface {
 			}
 		}
 
-		vertPos[(int)sizeX / 2 + 10, (int)sizeZ / 2 - 10] = 2f;
+		//addOscillator((int)sizeX / 2 + 10, (int)sizeZ / 2 - 10, 1f);
+		//addOscillator((int)sizeX / 2 - 10, (int)sizeZ / 2 + 10, -1f);
+	}
+
+	private void addOscillator(int x, int z, float initPos) {
+		oscillatorMap[x, z] = true;
+		vertPos[x, z] = initPos;		
 	}
 
 	public void update(float deltaTime) {
@@ -70,6 +74,13 @@ public class ModelSurface {
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
 				if(obstactleMap[x, z]) {
+					continue;
+				}
+
+				if(oscillatorMap[x, z]) {
+					float vertAcc = -SPRING_RATE_DIVIDED_BY_MASS * vertPos[x, z];
+					vertVel[x, z] += vertAcc * deltaTime;
+					vertPos[x, z] += vertVel[x, z] * deltaTime;
 					continue;
 				}
 
@@ -123,5 +134,19 @@ public class ModelSurface {
 		}
 
 		return gradient;
+	}
+
+	public void setPulseAtPoint(int xPos, int zPos, float pulseForce) {
+		vertVel[xPos, zPos] = -pulseForce;
+		vertPos[xPos, zPos] -= POSITION_THRESHOLD * 10;
+	}
+		
+	public void toggleOscillatorAtPosition(int xPos, int zPos, float amplitude) {
+		if(oscillatorMap[xPos, zPos]) {
+			oscillatorMap[xPos, zPos] = false;
+		} else {
+			vertPos[xPos, zPos] = amplitude;
+			oscillatorMap[xPos, zPos] = true;
+		}
 	}
 }
