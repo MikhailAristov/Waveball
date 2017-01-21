@@ -37,11 +37,16 @@ public class FogTagger: MonoBehaviour {
 		for (int x = 0; x < panels.GetLength(0); x++) {
 			for (int z = 0; z < panels.GetLength(1); z++) {
 				GameObject panel = panels [x, z];
-				if (panel.GetComponent<ControlPanel> ().State == PanelFogState.InSight) {
-					panel.GetComponent<ControlPanel> ().State = PanelFogState.Discovered;
+				if (panel.GetComponentInParent<ControlPanel> ().State == PanelFogState.InSight) {
+					panel.GetComponentInParent<ControlPanel> ().State = PanelFogState.Discovered;
 				}
+//				Debug.Log (particleGridCoord);
+//				Debug.Log (new Vector3(x, 0, z));
+//				Debug.Log ("-------");
+
+
 				if (isInRange(particleGridCoord, new Vector3(x, 0, z))) {
-					panel.GetComponent<ControlPanel> ().State = PanelFogState.InSight;
+					panel.GetComponentInParent<ControlPanel> ().State = PanelFogState.InSight;
 				}
 			}
 		}

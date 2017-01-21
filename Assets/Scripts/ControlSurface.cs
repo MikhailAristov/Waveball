@@ -42,7 +42,7 @@ public class ControlSurface : MonoBehaviour
 			}
 		}
 
-		SetPanelTexture ( "PanelTextures/default" );
+		//SetPanelTexture ( "PanelTextures/default" );
 
 		// Create model
 		myModel = new ModelSurface ( gridSizeX, gridSizeZ );
@@ -92,6 +92,7 @@ public class ControlSurface : MonoBehaviour
 		
 		panel.transform.localScale = new Vector3 ( 0.3f, 1f, 0.3f );
 		panel.transform.localRotation = Quaternion.identity;
+		panel.GetComponent<ControlPanel> ().State = PanelFogState.Undiscovered;
 
 		return panel.transform.Find ( "Model" ).gameObject;
 	}
