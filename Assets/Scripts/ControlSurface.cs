@@ -6,7 +6,7 @@ public class ControlSurface : MonoBehaviour {
 
 	const float MESH_ELEMENT_SIZE = 0.5f;
 	public float viscosity = 2.0f;
-	public float dampening = 0.2f;
+	public float dampening = 0.8f;
 	public float waveSpread = 5.0f;
 	private Mesh myMesh;
 
@@ -25,16 +25,11 @@ public class ControlSurface : MonoBehaviour {
 	void Start () {
 		myMesh = GetComponent<MeshFilter>().mesh;
 
-		Debug.Log(myMesh.bounds);
-
 		meshSizeX = myMesh.bounds.extents.x * 2f;
 		meshSizeZ = myMesh.bounds.extents.z * 2f;
 
 		gridSizeX = (int)Mathf.Floor(meshSizeX / MESH_ELEMENT_SIZE) + 1;
 		gridSizeZ = (int)Mathf.Floor(meshSizeZ / MESH_ELEMENT_SIZE) + 1;
-
-		Debug.Log(gridSizeX);
-		Debug.Log(gridSizeZ);
 
 		// Create Panels
 		gridPanels = new GameObject[gridSizeX, gridSizeZ];
@@ -49,7 +44,15 @@ public class ControlSurface : MonoBehaviour {
 		// Create model
 		myModel = new ModelSurface(gridSizeX, gridSizeZ); 
 	}
-	
+
+	void Update() {
+		if(myModel == null) { return; }
+
+		if(Input.GetButton("Submit")) {
+			myModel.reset();
+		}
+	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		if(myModel == null) { return; }

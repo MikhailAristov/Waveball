@@ -6,7 +6,7 @@ public class ControlParticle : MonoBehaviour
 
 	private Rigidbody myRigidBody;
 
-	public float minimalVelocityBeforeDeath = 0.1f;
+	public float minimalVelocityBeforeDeath = 0.001f;
 	public float gradientForceMultiplier = 100f;
 
 	public GameObject surface;
@@ -22,16 +22,15 @@ public class ControlParticle : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		if ( !myRigidBody.IsSleeping ()
-			&& myRigidBody.velocity.magnitude < minimalVelocityBeforeDeath )
-		{
-			Destroy ( gameObject );
-			return;
+		Vector3 currentGradient = surfaceControl.getGradientAtPosition ( transform.position );
+		if(currentGradient.sqrMagnitude > 0) {
+			myRigidBody.AddForce ( currentGradient * gradientForceMultiplier );
 		}
 
-		Vector3 currentGradient = surfaceControl.getGradientAtPosition ( transform.position );
-		if ( currentGradient.sqrMagnitude > 0 )
-			myRigidBody.AddForce ( currentGradient * gradientForceMultiplier );
+		if(myRigidBody.velocity.sqrMagnitude < minimalVelocityBeforeDeath) {
+			Debug.Log("object stopped, v = " + myRigidBody.velocity.sqrMagnitude);
+			Destroy(gameObject);
+		} 
 	}
 
 	void Update()
@@ -54,6 +53,7 @@ public class ControlParticle : MonoBehaviour
 	{
 		if ( collision.collider.CompareTag ( "Obstacle" ) )
 		{
+			Debug.Log("obstacle collision");
 			Destroy ( gameObject );
 		}
 	}
