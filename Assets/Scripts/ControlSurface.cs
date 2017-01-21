@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ControlSurface : MonoBehaviour {
 
+	public float viscosity = 2.0f;
+	public float dampening = 0.2f;
+	public float waveSpread = 5.0f;
+
 	const float MESH_ELEMENT_SIZE = 0.2f;
 
 	private Mesh myMesh;
@@ -51,7 +55,7 @@ public class ControlSurface : MonoBehaviour {
 		if(myModel == null) { return; }
 
 		// Model
-		myModel.update(Time.fixedDeltaTime);
+		myModel.update(Time.fixedDeltaTime, viscosity, dampening, waveSpread);
 		// Graphic
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {

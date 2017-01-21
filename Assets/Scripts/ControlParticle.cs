@@ -9,6 +9,7 @@ public class ControlParticle : MonoBehaviour {
 	private Rigidbody myRigidBody;
 
 	public float minimalVelocityBeforeDeath = 0.1f;
+	public float gradientForceMultiplier = 100f;
 
 	public GameObject surface;
 	private ControlSurface surfaceControl;
@@ -17,6 +18,7 @@ public class ControlParticle : MonoBehaviour {
 	void Start () {
 		myRigidBody = GetComponent<Rigidbody>();
 		surfaceControl = surface.GetComponent<ControlSurface>();
+		myRigidBody.mass = 1f;
 	}
 	
 	// Update is called once per frame
@@ -27,12 +29,12 @@ public class ControlParticle : MonoBehaviour {
 		}
 
 		Vector3 currentGradient = surfaceControl.getGradientAtPosition(transform.position);
-		myRigidBody.AddForce(currentGradient * 100f);
+		myRigidBody.AddForce(currentGradient * gradientForceMultiplier);
 	}
 
 	void OnTriggerEnter(Collider other) {
 		if(other.CompareTag("Finish")) {
-			Debug.LogError("YOU HAVE WON");
+			//Debug.LogError("YOU HAVE WON");
 			Destroy(gameObject);
 		}
 	}
