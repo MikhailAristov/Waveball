@@ -1198,7 +1198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 268185625}
-  LevelName: proto01
+  LevelName: proto02
 --- !u!1 &1540078378
 GameObject:
   m_ObjectHideFlags: 0
