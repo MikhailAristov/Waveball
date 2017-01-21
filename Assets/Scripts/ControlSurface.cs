@@ -76,6 +76,7 @@ public class ControlSurface : MonoBehaviour {
 		needle.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
 		needle.transform.Rotate (90f, 0f, 0f);
 
+		needle.tag = "Needle";
 
 		Texture2D texture = Resources.Load("line") as Texture2D;
 		needle.GetComponent<Renderer> ().material.shader = Shader.Find("Particles/Additive");
