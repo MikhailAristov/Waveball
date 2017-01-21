@@ -27,7 +27,6 @@ public class ControlParticle : MonoBehaviour {
 		}
 
 		Vector3 currentGradient = surfaceControl.getGradientAtPosition(transform.position);
-		//Debug.Log(currentGradient);
 		myRigidBody.AddForce(currentGradient * 100f);
 	}
 

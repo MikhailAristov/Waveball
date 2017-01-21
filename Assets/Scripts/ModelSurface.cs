@@ -53,8 +53,8 @@ public class ModelSurface {
 			}
 		}
 
-		addOscillator((int)sizeX / 2 + 10, (int)sizeZ / 2 - 10, 1f);
-		addOscillator((int)sizeX / 2 - 10, (int)sizeZ / 2 + 10, -1f);
+		//addOscillator((int)sizeX / 2 + 10, (int)sizeZ / 2 - 10, 1f);
+		//addOscillator((int)sizeX / 2 - 10, (int)sizeZ / 2 + 10, -1f);
 	}
 
 	private void addOscillator(int x, int z, float initPos) {
@@ -134,5 +134,19 @@ public class ModelSurface {
 		}
 
 		return gradient;
+	}
+
+	public void setPulseAtPoint(int xPos, int zPos, float pulseForce) {
+		vertVel[xPos, zPos] = -pulseForce;
+		vertPos[xPos, zPos] -= POSITION_THRESHOLD * 10;
+	}
+		
+	public void toggleOscillatorAtPosition(int xPos, int zPos, float amplitude) {
+		if(oscillatorMap[xPos, zPos]) {
+			oscillatorMap[xPos, zPos] = false;
+		} else {
+			vertPos[xPos, zPos] = amplitude;
+			oscillatorMap[xPos, zPos] = true;
+		}
 	}
 }

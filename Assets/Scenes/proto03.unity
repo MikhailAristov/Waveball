@@ -536,6 +536,7 @@ GameObject:
   - component: {fileID: 1145422910}
   - component: {fileID: 1145422909}
   - component: {fileID: 1145422913}
+  - component: {fileID: 1145422914}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -582,7 +583,7 @@ MeshCollider:
   m_GameObject: {fileID: 1145422908}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -627,6 +628,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needlePool: {fileID: 883630776}
+--- !u!114 &1145422914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145422908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705c999b2d2042747973947d747cc188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1398153747
 GameObject:
   m_ObjectHideFlags: 0
