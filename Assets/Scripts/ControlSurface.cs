@@ -18,8 +18,8 @@ public class ControlSurface : MonoBehaviour {
 	private int gridSizeX;
 	private int gridSizeZ;
 
-	private GameObject[,] gridNeedles;
-    public GameObject needlePool;
+	private GameObject[,] gridPanels;
+    public GameObject PanelPool;
 
     // Use this for initialization
 	void Start () {
@@ -36,11 +36,11 @@ public class ControlSurface : MonoBehaviour {
 		Debug.Log(gridSizeX);
 		Debug.Log(gridSizeZ);
 
-		// Create needles
-		gridNeedles = new GameObject[gridSizeX, gridSizeZ];
+		// Create Panels
+		gridPanels = new GameObject[gridSizeX, gridSizeZ];
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
-				gridNeedles[x, z] = makeNeedle(x, z);
+				gridPanels[x, z] = makePanel(x, z);
 			}
 		}
 
@@ -59,51 +59,51 @@ public class ControlSurface : MonoBehaviour {
 		// Graphic
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
-				//Vector3 myPos = gridNeedles[x, z].transform.position;
+				//Vector3 myPos = grids[x, z].transform.position;
 				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
-				//gridNeedles[x, z].transform.position = newPos;
+				//gridPanels[x, z].transform.position = newPos;
 
 				float scaleFactor = 0.3f + myModel.vertPos[x, z] / 2f;
-				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+				gridPanels[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 
 				Vector3 gradient = myModel.getGradientAtPoint (x, z);
 
 				Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
 				Quaternion q2 = Quaternion.FromToRotation (new Vector3 (1f, 0f, 0f), new Vector3(gradient.x, gradient.z, 0f));
-				gridNeedles [x, z].transform.localRotation = q1 * q2;
+				gridPanels [x, z].transform.localRotation = q1 * q2;
 			}
 		}
 	}
 
-	private GameObject makeNeedle(int x, int z) {
+	private GameObject makePanel(int x, int z) {
 		float xPos = (x - Mathf.Ceil(gridSizeX / 2)) * MESH_ELEMENT_SIZE;
 		float zPos = (z - Mathf.Ceil(gridSizeZ / 2)) * MESH_ELEMENT_SIZE;
 		Vector3 originPoint = new Vector3(xPos, 0.1f, zPos);
 
-		GameObject needle = GameObject.CreatePrimitive(PrimitiveType.Quad);
-		needle.name = "needle[" + x.ToString() + "][" + z.ToString() + "]";
-		needle.transform.parent = needlePool.transform;
-		needle.transform.localPosition = originPoint;
-		needle.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+		GameObject panel = GameObject.CreatePrimitive(PrimitiveType.Quad);
+		panel.name = "Panel[" + x.ToString() + "][" + z.ToString() + "]";
+		panel.transform.parent = PanelPool.transform;
+		panel.transform.localPosition = originPoint;
+		panel.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
 		 
 		Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
-		needle.transform.localRotation = q1;
+		panel.transform.localRotation = q1;
 
 
-		needle.tag = "Needle";
+		panel.tag = "Panel";
 
-		return needle;
+		return panel;
 	}
 
     public void SetPanelTexture(string texturePath)
     {
         var texture = Resources.Load(texturePath) as Texture2D;
 
-        foreach (var needle in gridNeedles)
+		foreach (var panel in gridPanels)
         {  
-            needle.GetComponent<Renderer>().material.shader = Shader.Find("Unlit/Transparent");
-            needle.GetComponent<Renderer>().material.SetColor("_Transparent", Color.clear);
-            needle.GetComponent<Renderer>().material.mainTexture = texture;
+			panel.GetComponent<Renderer>().material.shader = Shader.Find("Unlit/Transparent");
+			panel.GetComponent<Renderer>().material.SetColor("_Transparent", Color.clear);
+			panel.GetComponent<Renderer>().material.mainTexture = texture;
         }
 
 
