@@ -42,7 +42,7 @@ public class ControlSurface : MonoBehaviour {
 			}
 		}
 
-        SetPanelTexture("PanelTextures/path4315");
+		SetPanelTexture("PanelTextures/Waveball_Panels_Symbol2");
 
 		// Create model
 		myModel = new ModelSurface(gridSizeX, gridSizeZ); 
