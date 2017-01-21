@@ -89,8 +89,8 @@ public class ControlSurface : MonoBehaviour {
 		Quaternion q1 = Quaternion.AngleAxis (90f, new Vector3 (1f, 0f, 0f));
 		panel.transform.localRotation = q1;
 
-
 		panel.tag = "Panel";
+		panel.tag = "Undiscovered";
 
 		return panel;
 	}
@@ -108,7 +108,12 @@ public class ControlSurface : MonoBehaviour {
 
 
     }
-
+		
+	public Vector3 worldPosToGrid(float xPos, float zPos) {
+		int xGrid = Mathf.RoundToInt(xPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeX / 2);
+		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
+		return new Vector3 (xGrid, 0, zGrid);
+	}
 
     public Vector3 getGradientAtPosition(Vector3 transformPos) {
 		float xPos = transformPos.x;
