@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 1145422909}
   - component: {fileID: 1145422913}
   - component: {fileID: 1145422914}
+  - component: {fileID: 1145422915}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -627,6 +628,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ed8f099fa752e469fb442b3f92d371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viscosity: 2
+  dampening: 0.2
+  waveSpread: 5
   needlePool: {fileID: 883630776}
 --- !u!114 &1145422914
 MonoBehaviour:
@@ -637,6 +641,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 705c999b2d2042747973947d747cc188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1145422915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145422908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f56abac1ac1c49d6a09dbc7096306a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1398153747
