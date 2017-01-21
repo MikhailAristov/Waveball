@@ -44,7 +44,7 @@ public class ControlSurface : MonoBehaviour {
 			}
 		}
 
-		SetPanelTexture("PanelTextures/Waveball_Panels_Symbol2");
+		SetPanelTexture("PanelTextures/default");
 
 		// Create model
 		myModel = new ModelSurface(gridSizeX, gridSizeZ); 
@@ -59,10 +59,6 @@ public class ControlSurface : MonoBehaviour {
 		// Graphic
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
-				//Vector3 myPos = grids[x, z].transform.position;
-				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
-				//gridPanels[x, z].transform.position = newPos;
-
 				float scaleFactor = 0.3f + myModel.vertPos[x, z] / 2f;
 				gridPanels[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 
@@ -105,8 +101,6 @@ public class ControlSurface : MonoBehaviour {
 			panel.GetComponent<Renderer>().material.SetColor("_Transparent", Color.clear);
 			panel.GetComponent<Renderer>().material.mainTexture = texture;
         }
-
-
     }
 
 

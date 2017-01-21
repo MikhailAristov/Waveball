@@ -45,7 +45,7 @@ public class ControlParticle : MonoBehaviour
 	{
 		if ( other.CompareTag ( "Finish" ) )
 		{
-			Debug.LogError ( "YOU HAVE WON" );
+			//Debug.LogError ( "YOU HAVE WON" );
 			Destroy ( gameObject );
 		}
 	}
