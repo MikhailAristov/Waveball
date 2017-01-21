@@ -8,7 +8,7 @@ public class ControlSpawn : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(keepSpawningParticles());
+		//StartCoroutine(keepSpawningParticles());
 	}
 	
 	// Update is called once per frame

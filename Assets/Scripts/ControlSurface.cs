@@ -4,25 +4,68 @@ using UnityEngine;
 
 public class ControlSurface : MonoBehaviour {
 
-	const float MeshElementSize = 0.5f;
+	const float MESH_ELEMENT_SIZE = 0.2f;
 
-	private MeshFilter myMesh;
+	private Mesh myMesh;
+
+	private ModelSurface myModel;
+
+	private float meshSizeX;
+	private float meshSizeZ;
+
+	private int gridSizeX;
+	private int gridSizeZ;
+
+	private GameObject[,] gridNeedles;
+	public GameObject needlePool;
 
 	// Use this for initialization
 	void Start () {
-		myMesh = GetComponent<MeshFilter>();
+		myMesh = GetComponent<MeshFilter>().mesh;
+
+		Debug.Log(myMesh.bounds);
+
+		meshSizeX = myMesh.bounds.extents.x * 2f;
+		meshSizeZ = myMesh.bounds.extents.z * 2f;
+
+		gridSizeX = (int)Mathf.Floor(meshSizeX / MESH_ELEMENT_SIZE) + 1;
+		gridSizeZ = (int)Mathf.Floor(meshSizeZ / MESH_ELEMENT_SIZE) + 1;
+
+		Debug.Log(gridSizeX);
+		Debug.Log(gridSizeZ);
+
+		// Create needles
+		gridNeedles = new GameObject[gridSizeX, gridSizeZ];
+		for(int x = 0; x < gridSizeX; x++) {
+			for(int z = 0; z < gridSizeZ; z++) {
+				gridNeedles[x, z] = makeNeedle(x, z);
+			}
+		}
+
+		// Create model
+		myModel = new ModelSurface(gridSizeX, gridSizeZ); 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Mesh mesh = myMesh.mesh; // mesh
-		Vector3[] vertices = mesh.vertices;
-		Vector3[] normals = mesh.normals;
-		int i = 0;
-		while (i < vertices.Length) {
-			vertices[i].y = normals[i].y * Mathf.Sin(Time.time + Mathf.Sqrt(vertices[i].x * vertices[i].x + vertices[i].z * vertices[i].z));
-			i++;
+		for(int x = 0; x < gridSizeX; x++) {
+			for(int z = 0; z < gridSizeZ; z++) {
+				Vector3 myPos = gridNeedles[x, z].transform.position;
+				Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
+				gridNeedles[x, z].transform.position = newPos;
+			}
 		}
-		mesh.vertices = vertices;
+	}
+
+	private GameObject makeNeedle(int x, int z) {
+		float xPos = (x - Mathf.Ceil(gridSizeX / 2)) * MESH_ELEMENT_SIZE;
+		float zPos = (z - Mathf.Ceil(gridSizeZ / 2)) * MESH_ELEMENT_SIZE;
+		Vector3 originPoint = new Vector3(xPos, 0f, zPos);
+		GameObject needle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		needle.name = "needle[" + x.ToString() + "][" + z.ToString() + "]";
+		needle.transform.position = originPoint;
+		needle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		needle.transform.parent = needlePool.transform;
+		return needle;
 	}
 }
