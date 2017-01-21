@@ -28,6 +28,7 @@ public class FogTagger: MonoBehaviour {
 //		foreach (var particle in controlSpawn.particlePool) {
 //			Debug.Log(particle);
 //		}
+		/*
 
 		GameObject particle = controlSpawn.particle;
 		Vector3 particleGridCoord = controlSurface.worldPosToGrid (particle.transform.position.x, particle.transform.position.z);
@@ -46,7 +47,7 @@ public class FogTagger: MonoBehaviour {
 				}
 			}
 		}
-
+	*/
 		/*
 		GameObject particle = controlSpawn.particle;
 		Vector3 gridCoord = controlSurface.worldPosToGrid (particle.transform.position.x, particle.transform.position.z);
