@@ -98,7 +98,6 @@ public class ControlSurface : MonoBehaviour
 	public void SetPanelTexture(string texturePath)
 	{
 		var texture = Resources.Load ( texturePath ) as Texture2D;
-
 		foreach ( var panel in gridPanels )
 		{
 			var renderer = panel.GetComponent<Renderer> ();
@@ -107,7 +106,12 @@ public class ControlSurface : MonoBehaviour
 			renderer.material.mainTexture = texture;
 		}
 	}
-
+	
+	public Vector3 worldPosToGrid(float xPos, float zPos) {
+		int xGrid = Mathf.RoundToInt(xPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeX / 2);
+		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
+		return new Vector3 (xGrid, 0, zGrid);
+	}
 
 	public Vector3 getGradientAtPosition(Vector3 transformPos)
 	{
