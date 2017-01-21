@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/Scenes/proto01.unity
   - enabled: 1
     path: Assets/Scenes/proto02.unity
+  - enabled: 1
+    path: Assets/Scenes/proto03.unity
