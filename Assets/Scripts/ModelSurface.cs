@@ -140,6 +140,10 @@ public class ModelSurface {
 	}
 		
 	public void toggleOscillatorAtPosition(int xPos, int zPos, float amplitude) {
+		if(obstactleMap[xPos, zPos]) {
+			return;
+		}
+
 		if(oscillatorMap[xPos, zPos]) {
 			oscillatorMap[xPos, zPos] = false;
 		} else {
