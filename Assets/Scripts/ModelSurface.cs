@@ -34,6 +34,7 @@ public class ModelSurface {
 
 	public float[,] vertPos;
 	public float[,] vertVel;
+	float[,] vertDeltas;
 
 	public bool[,] obstactleMap;
 	public bool[,] oscillatorMap;
@@ -44,6 +45,7 @@ public class ModelSurface {
 
 		vertPos = new float[sizeX, sizeZ];
 		vertVel = new float[sizeX, sizeZ];
+		vertDeltas = new float[sizeX, sizeZ];
 		obstactleMap = new bool[sizeX, sizeZ];
 		oscillatorMap = new bool[sizeX, sizeZ];
 
@@ -64,7 +66,7 @@ public class ModelSurface {
 
 	public void update(float deltaTime) {
 		// Propagation prepare
-		float[,] vertDeltas = new float[gridSizeX, gridSizeZ];
+		Array.Clear(vertDeltas, 0, gridSizeX * gridSizeZ);
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
 				vertDeltas[x, z] = getDeltaAtPoint(x, z);
