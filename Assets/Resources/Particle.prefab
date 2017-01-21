@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 23078507515411532}
   - component: {fileID: 54408489092457404}
   - component: {fileID: 114191295294334804}
+  - component: {fileID: 108176769804251752}
   m_Layer: 0
   m_Name: Particle
   m_TagString: Untagged
@@ -97,6 +98,40 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!108 &108176769804251752
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1501049089627322}
+  m_Enabled: 1
+  serializedVersion: 7
+  m_Type: 2
+  m_Color: {r: 0.32156864, g: 0.92156863, b: 0.9490196, a: 1}
+  m_Intensity: 1
+  m_Range: 5
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!114 &114191295294334804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimalVelocityBeforeDeath: 0.1
+  gradientForceMultiplier: 100
   surface: {fileID: 0}
 --- !u!135 &135035972207177074
 SphereCollider:
