@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class ModelSurface {
 
-	const float SPRING_RATE_DIVIDED_BY_MASS = 2.0f;
-	const float DAMPENING = 0.2f;
-	const float WAVE_PROPAGATION_SPEED = 5.0f;
-
 	const float POSITION_THRESHOLD = 0.0000001f;
 
 	private float[,] SPREAD_MATRIX = new float[3, 3] {
@@ -34,6 +30,7 @@ public class ModelSurface {
 
 	public float[,] vertPos;
 	public float[,] vertVel;
+	float[,] vertDeltas;
 
 	public bool[,] obstactleMap;
 	public bool[,] oscillatorMap;
@@ -44,6 +41,7 @@ public class ModelSurface {
 
 		vertPos = new float[sizeX, sizeZ];
 		vertVel = new float[sizeX, sizeZ];
+		vertDeltas = new float[sizeX, sizeZ];
 		obstactleMap = new bool[sizeX, sizeZ];
 		oscillatorMap = new bool[sizeX, sizeZ];
 
@@ -52,19 +50,11 @@ public class ModelSurface {
 				obstactleMap[x, z] = (x == 0 || x == gridSizeX - 1 || z == 0 || z == gridSizeZ - 1);
 			}
 		}
-
-		//addOscillator((int)sizeX / 2 + 10, (int)sizeZ / 2 - 10, 1f);
-		//addOscillator((int)sizeX / 2 - 10, (int)sizeZ / 2 + 10, -1f);
 	}
 
-	private void addOscillator(int x, int z, float initPos) {
-		oscillatorMap[x, z] = true;
-		vertPos[x, z] = initPos;		
-	}
-
-	public void update(float deltaTime) {
+	public void update(float deltaTime, float springRateDividedByMass, float dampening, float wavePropagationSpeed) {
 		// Propagation prepare
-		float[,] vertDeltas = new float[gridSizeX, gridSizeZ];
+		Array.Clear(vertDeltas, 0, gridSizeX * gridSizeZ);
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
 				vertDeltas[x, z] = getDeltaAtPoint(x, z);
@@ -78,15 +68,15 @@ public class ModelSurface {
 				}
 
 				if(oscillatorMap[x, z]) {
-					float vertAcc = -SPRING_RATE_DIVIDED_BY_MASS * vertPos[x, z];
+					float vertAcc = -springRateDividedByMass * vertPos[x, z];
 					vertVel[x, z] += vertAcc * deltaTime;
 					vertPos[x, z] += vertVel[x, z] * deltaTime;
 					continue;
 				}
 
 				if(Math.Abs(vertPos[x, z]) >= POSITION_THRESHOLD || getDeltaAtPoint(x, z) >= POSITION_THRESHOLD) {
-					float vertAcc = -SPRING_RATE_DIVIDED_BY_MASS * vertPos[x, z] - DAMPENING * vertVel[x, z];
-					vertVel[x, z] += vertAcc * deltaTime + WAVE_PROPAGATION_SPEED * vertDeltas[x, z];
+					float vertAcc = -springRateDividedByMass * vertPos[x, z] - dampening * vertVel[x, z];
+					vertVel[x, z] += vertAcc * deltaTime + wavePropagationSpeed * vertDeltas[x, z];
 					vertPos[x, z] += vertVel[x, z] * deltaTime;
 				}
 			}

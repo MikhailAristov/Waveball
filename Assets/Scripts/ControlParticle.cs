@@ -7,6 +7,7 @@ public class ControlParticle : MonoBehaviour
 	private Rigidbody myRigidBody;
 
 	public float minimalVelocityBeforeDeath = 0.1f;
+	public float gradientForceMultiplier = 100f;
 
 	public GameObject surface;
 	private ControlSurface surfaceControl;
@@ -30,7 +31,7 @@ public class ControlParticle : MonoBehaviour
 
 		Vector3 currentGradient = surfaceControl.getGradientAtPosition ( transform.position );
 		if ( currentGradient.sqrMagnitude > 0 )
-			myRigidBody.AddForce ( currentGradient * 100f );
+			myRigidBody.AddForce ( currentGradient * gradientForceMultiplier );
 	}
 
 	void Update()
