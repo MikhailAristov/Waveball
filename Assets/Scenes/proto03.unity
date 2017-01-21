@@ -495,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnActive: 1
   surface: {fileID: 1145422908}
-  particlePool: {fileID: 1814244585}
+  particle: {fileID: 0}
 --- !u!1 &880446857
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,48 +685,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f56abac1ac1c49d6a09dbc7096306a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1361178889
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.57
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4443457693015042, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 66bd428e94918c0439ab67a3c19c8bda, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1398153747
 GameObject:
   m_ObjectHideFlags: 0
