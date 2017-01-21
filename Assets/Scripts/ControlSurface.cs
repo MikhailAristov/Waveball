@@ -56,8 +56,9 @@ public class ControlSurface : MonoBehaviour {
 				//Vector3 myPos = gridNeedles[x, z].transform.position;
 				//Vector3 newPos = new Vector3(myPos.x, myModel.vertPos[x, z], myPos.z);
 				//gridNeedles[x, z].transform.position = newPos;
+
 				float scaleFactor = 0.1f + myModel.vertPos[x, z] / 2f;
-				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+				gridNeedles[x, z].transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 			}
 		}
 	}
@@ -65,13 +66,23 @@ public class ControlSurface : MonoBehaviour {
 	private GameObject makeNeedle(int x, int z) {
 		float xPos = (x - Mathf.Ceil(gridSizeX / 2)) * MESH_ELEMENT_SIZE;
 		float zPos = (z - Mathf.Ceil(gridSizeZ / 2)) * MESH_ELEMENT_SIZE;
-		Vector3 originPoint = new Vector3(xPos, 0f, zPos);
-		GameObject needle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		Vector3 originPoint = new Vector3(xPos, 0.1f, zPos);
+
+		GameObject needle = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		needle.name = "needle[" + x.ToString() + "][" + z.ToString() + "]";
 		needle.transform.parent = needlePool.transform;
 		needle.transform.localPosition = originPoint;
-		needle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-		needle.GetComponent<SphereCollider>().enabled = false;
+		needle.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+		needle.transform.Rotate (90f, 0f, 0f);
+
+
+		Texture2D texture = Resources.Load("line") as Texture2D;
+		needle.GetComponent<Renderer> ().material.shader = Shader.Find("Particles/Additive");
+		needle.GetComponent<Renderer> ().material.SetColor ("_Transparent", Color.clear);
+		needle.GetComponent<Renderer> ().material.mainTexture = texture;
+		//needle.GetComponent<SphereCollider>().enabled = false;
+
+
 		return needle;
 	}
 
