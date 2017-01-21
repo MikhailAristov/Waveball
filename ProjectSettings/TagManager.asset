@@ -4,8 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Needle
   - Obstacle
+  - Panel
+  - Undiscovered
+  - Discovered
+  - InSight
   layers:
   - Default
   - TransparentFX
