@@ -68,9 +68,10 @@ public class ControlSurface : MonoBehaviour {
 		Vector3 originPoint = new Vector3(xPos, 0f, zPos);
 		GameObject needle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 		needle.name = "needle[" + x.ToString() + "][" + z.ToString() + "]";
-		needle.transform.position = originPoint;
-		needle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 		needle.transform.parent = needlePool.transform;
+		needle.transform.localPosition = originPoint;
+		needle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		needle.GetComponent<SphereCollider>().enabled = false;
 		return needle;
 	}
 }
