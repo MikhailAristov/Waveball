@@ -48,6 +48,8 @@ public class ControlSurface : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if(myModel == null) { return; }
+
 		// Model
 		myModel.update(Time.fixedDeltaTime);
 		// Graphic
