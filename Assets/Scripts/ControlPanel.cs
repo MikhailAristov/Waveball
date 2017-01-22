@@ -25,7 +25,7 @@ public class ControlPanel : MonoBehaviour {
 			case PanelForceActionState.None:
 				//renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
 				//renderer.material.color = Color.white;
-				renderer.material.mainTexture = texturePalette[0];
+				//renderer.material.mainTexture = texturePalette[0];
 				break;
 			case PanelForceActionState.Pulse:
 				//renderer.material.color = Color.clear;

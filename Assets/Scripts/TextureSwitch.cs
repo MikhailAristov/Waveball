@@ -10,21 +10,41 @@ public class TextureSwitch : MonoBehaviour {
 	ControlSurface surface;
 
 
-	void Start() {
-		index = 0;
+	void Start()
+	{
+        surface = GetComponent<ControlSurface>();
+        var lvlName = gameObject.scene.name;
+	    switch (lvlName)
+	    {
+            case "Level1":
+                surface.SetPanelTexture("PanelTextures/Panel_Hex");
+                break;
+            case "Level2":
+                surface.SetPanelTexture("PanelTextures/Panel_Tri");
+                break;
+            case "Level3":
+                surface.SetPanelTexture("PanelTextures/Panel_Quad");
+                break;
+            case "Level4":
+                surface.SetPanelTexture("PanelTextures/Panel_Circle");
+                break;
+	    }
 
-		DirectoryInfo dir = new DirectoryInfo ("Assets/Resources/PanelTextures");
-		files = dir.GetFiles ("*.png");
 
-		surface = GetComponent<ControlSurface>(); 
+	 //   index = 0;
+
+		//DirectoryInfo dir = new DirectoryInfo ("Assets/Resources/PanelTextures");
+		//files = dir.GetFiles ("*.png");
+
+		
 	}
 		
 
 	void Update() {
-		if(Input.GetKeyDown(KeyCode.Space)){
-			index = (index + 1) % files.Length;
-			Debug.Log ("PanelTextures/" + files[index].Name);
-			surface.SetPanelTexture ("PanelTextures/" + files[index].Name.Replace(".png", ""));
-		}
+		//if(Input.GetKeyDown(KeyCode.Space)){
+		//	index = (index + 1) % files.Length;
+		//	Debug.Log ("PanelTextures/" + files[index].Name);
+		//	surface.SetPanelTexture ("PanelTextures/" + files[index].Name.Replace(".png", ""));
+		//}
 	}
 }
