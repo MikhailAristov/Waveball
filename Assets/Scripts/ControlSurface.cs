@@ -121,6 +121,7 @@ public class ControlSurface : MonoBehaviour
 		}
 
 		var control = panel.GetComponent<ControlPanel> ();
+	    control.colorPalette = colorPalette;
 		if ( colorPalette != null && colorPalette.Palette != null && colorPalette.Palette.Count > 0 )
 			control.SetColor ( colorPalette.Palette[Random.Range ( 1, colorPalette.Palette.Count - 2 )] );
 		return control;

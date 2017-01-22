@@ -578,6 +578,9 @@ MonoBehaviour:
   surface: {fileID: 1145422908}
   jukebox: {fileID: 2043778739}
   particle: {fileID: 0}
+  particlePrefab: {fileID: 1501049089627322, guid: 593ff91a1b9a455408c7863236cbb98d,
+    type: 2}
+  colorPalette: {fileID: 0}
 --- !u!1 &687897513
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,6 +972,7 @@ MonoBehaviour:
   PrefabPanel: {fileID: 1524867151565348, guid: 66bd428e94918c0439ab67a3c19c8bda,
     type: 2}
   jukebox: {fileID: 2043778739}
+  colorPalette: {fileID: 0}
 --- !u!114 &1145422914
 MonoBehaviour:
   m_ObjectHideFlags: 0

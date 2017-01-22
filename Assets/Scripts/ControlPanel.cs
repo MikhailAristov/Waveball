@@ -8,7 +8,7 @@ public class ControlPanel : MonoBehaviour {
 	private PanelFogState fogState;
 	private PanelForceActionState forceActionState;
 
-	private Color[] colorPalette;
+	public ColorPalette colorPalette;
 	private Texture2D[] texturePalette;
 
 	public Transform Model;
@@ -44,13 +44,13 @@ public class ControlPanel : MonoBehaviour {
 			var renderer = gameObject.GetComponentInChildren<Renderer> ();
 			switch (value) {
 			case PanelFogState.Undiscovered:
-				renderer.material.color = colorPalette [0];
+				renderer.material.color = colorPalette.Palette[5];
 				break;
 			case PanelFogState.Discovered:
-				renderer.material.color = colorPalette [1];
+				renderer.material.color = colorPalette.Palette[7];
 				break;
 			case PanelFogState.InSight:
-				renderer.material.color = colorPalette [2];
+				renderer.material.color = colorPalette.Palette[1];
 				break;
 			}
 			fogState = value;
@@ -65,10 +65,6 @@ public class ControlPanel : MonoBehaviour {
 	}
 
 	void Start () {
-		colorPalette = new Color[3];
-		colorPalette [0] = Color.black;
-		colorPalette [1] = Color.white;
-		colorPalette [2] = Color.blue;
 		FogState = PanelFogState.Undiscovered;
 
 
