@@ -79,7 +79,6 @@ public class ControlSurface : MonoBehaviour
 				// Quaternion gimbal lock invert prevent
 				if ( Mathf.Abs ( q.eulerAngles.x ) > 200f )
 				{
-					Debug.Log ( q );
 					q = new Quaternion ( -q.x, q.y, -q.z, q.w );
 				}
 				trans.localRotation = q;
