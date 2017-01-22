@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class ColorPalette : MonoBehaviour
@@ -51,31 +52,30 @@ public class ColorPalette : MonoBehaviour
 
 	private Color HSLtoRGB(float h, float s, float l)
 	{
-		float r, g, b;
+	    if (s == 0.0f)
+	    {
+	        return new Color(l, l, l); // achromatic
+	    }
 
-		if ( s == 0 )
-		{
-			r = g = b = (int)(l * 255); // achromatic
-		}
-		else
-		{
-			var q = l < 0.5f ? l * (1 + s) : l + s - l * s;
-			var p = 2 * l - q;
-			r = hue2rgb ( p, q, h + 1 / 3 );
-			g = hue2rgb ( p, q, h );
-			b = hue2rgb ( p, q, h - 1 / 3 );
-		}
-
-		return new Color ( r * 255, g * 255, b * 255 );
+	    else
+	    {
+	        var c = (1 - Math.Abs(2*l - 1))*s;
+	        var h1 = (360*h)/60;
+	        var x = c*(1 - Math.Abs((h1%2) - 1));
+            return GenerateRGB(c, x, h1);
+	    }
 	}
 
-	private float hue2rgb(float p, float q, float t)
+	private Color GenerateRGB(float c, float x, float h1)
 	{
-		if ( t < 0 ) t += 1;
-		else if ( t > 1 ) t -= 1;
-		else if ( t < 1 / 6 ) return p + (q - p) * 6 * t;
-		else if ( t < 1 / 2 ) return q;
-		else if ( t < 2 / 3 ) return p + (q - p) * (2 / 3 - t) * 6;
-		return p;
+	    var c1 = c/255;
+	    var x1 = x/255;
+	    if (0 <= h1 && h1 <= 1) return new Color(c1, x1, 0);
+	    if (1 <= h1 && h1 <= 2) return new Color(x1, c1, 0);
+	    if (2 <= h1 && h1 <= 3) return new Color(0, c1, x1);
+	    if (3 <= h1 && h1 <= 4) return new Color(0, x1, c1);
+	    if (4 <= h1 && h1 <= 5) return new Color(x1, 0, c1);
+	    if (5 <= h1 && h1 < 6) return new Color(c1, 0, x1);
+        else return new Color(0, 0, 0);
 	}
 }

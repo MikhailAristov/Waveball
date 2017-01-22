@@ -47,10 +47,10 @@ public class ControlPanel : MonoBehaviour {
 				renderer.material.color = colorPalette.Palette[5];
 				break;
 			case PanelFogState.Discovered:
-				renderer.material.color = colorPalette.Palette[7];
+				renderer.material.color = colorPalette.Palette[1];
 				break;
 			case PanelFogState.InSight:
-				renderer.material.color = colorPalette.Palette[1];
+				renderer.material.color = colorPalette.Palette[3];
 				break;
 			}
 			fogState = value;
