@@ -39,7 +39,10 @@ public class ControlParticle : MonoBehaviour
 
 	public void SetColor(Color color)
 	{
+	    var main = GetComponentInChildren<ParticleSystem>().main;
+	    main.startColor = color;
 
+	    GetComponentInChildren<MeshRenderer>().material.color = color;
 	}
 
 	void Update()
