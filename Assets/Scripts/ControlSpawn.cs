@@ -27,7 +27,7 @@ public class ControlSpawn : MonoBehaviour {
 				this.particle = instantiate.GetComponent<ControlParticle> ();
 				this.particle.surface = this.surface;
 				this.particle.jukebox = this.jukebox;
-				this.particle.SetColor ( colorPalette.Palette[0] );
+				this.particle.SetColor ( colorPalette.Palette[2] );
 			}
 			// Then wait
 			yield return new WaitForSeconds(1.0f);
