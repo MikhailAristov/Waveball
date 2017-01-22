@@ -51,11 +51,11 @@ public class ControlPanel : MonoBehaviour {
 					alphaTaget = 0;
 				break;
 			case PanelFogState.Discovered:
-				renderer.material.color = colorPalette.Palette[7];
+				renderer.material.color = colorPalette.Palette[1];
 					alphaTaget = 1;
 					break;
 			case PanelFogState.InSight:
-				renderer.material.color = colorPalette.Palette[1];
+				renderer.material.color = colorPalette.Palette[3];
 					alphaTaget = 1;
 					break;
 			}
