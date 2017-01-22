@@ -17,7 +17,7 @@ public class ControlSurface : MonoBehaviour
 	private int gridSizeX;
 	private int gridSizeZ;
 
-	public float PanelTextureSize = 0.9f;
+	const float PanelTextureSize = 0.4f;
 
 	public ControlPanel[,] gridPanels;
 	public GameObject PanelPool;
