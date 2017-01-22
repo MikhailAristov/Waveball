@@ -44,7 +44,6 @@ public class ControlPanel : MonoBehaviour {
 		get { return fogState; }
 		set { 
 			var renderer = ModelRenderer;
-			Color c;
 			switch (value) {
 			case PanelFogState.Undiscovered:
 				renderer.material.color = Color.clear;
