@@ -28,7 +28,10 @@ public class TextureSwitch : MonoBehaviour {
             case "Level4":
                 surface.SetPanelTexture("PanelTextures/Panel_Circle");
                 break;
-	    }
+            case "Level5":
+                surface.SetPanelTexture("PanelTextures/default");
+                break;
+        }
 
 
 	 //   index = 0;
