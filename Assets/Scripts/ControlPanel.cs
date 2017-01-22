@@ -44,14 +44,13 @@ public class ControlPanel : MonoBehaviour {
 		get { return fogState; }
 		set { 
 			var renderer = ModelRenderer;
-			Color c;
 			switch (value) {
 			case PanelFogState.Undiscovered:
 				renderer.material.color = Color.clear;
 					alphaTaget = 0;
 				break;
 			case PanelFogState.Discovered:
-				renderer.material.color = colorPalette.Palette[1];
+				renderer.material.color = colorPalette.Palette[0];
 					alphaTaget = 1;
 					break;
 			case PanelFogState.InSight:
