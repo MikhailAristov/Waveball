@@ -8,6 +8,7 @@ public class ControlJukebox : MonoBehaviour {
 	private int lastTrackPlayed;
 
 	public float exploredSpacePercentage = 0.0f;
+	const float PLAY_LAST_TRACK_AT_PERCENTAGE = 0.8f;
 	private float bgmBreakpointStep;
 
 	private AudioSource[] dyingSounds;
@@ -26,7 +27,7 @@ public class ControlJukebox : MonoBehaviour {
 			findAudioSource("LoopNearEndFlute"),
 			findAudioSource("LoopNearEndStrings"),
 		};
-		bgmBreakpointStep = 1.0f / backgroundTracks.Length;
+		bgmBreakpointStep = PLAY_LAST_TRACK_AT_PERCENTAGE / backgroundTracks.Length;
 
 		foreach(AudioSource bgm in backgroundTracks) {
 			bgm.volume = 0f;
@@ -49,8 +50,7 @@ public class ControlJukebox : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		exploredSpacePercentage = Time.timeSinceLevelLoad / 20.0f;
-
+		//exploredSpacePercentage = Time.timeSinceLevelLoad / 20.0f;
 		if(exploredSpacePercentage > bgmBreakpointStep * (float)lastTrackPlayed) {
 			addNextBackgroundTrack();
 			// Special case MidwayPad #5 may not play over EndFlute #6:
@@ -66,8 +66,10 @@ public class ControlJukebox : MonoBehaviour {
 	}
 
 	private void addNextBackgroundTrack() {
-		lastTrackPlayed += 1;
-		StartCoroutine(unmuteBackgroundTrack(lastTrackPlayed, 1.0f));
+		if(lastTrackPlayed < (backgroundTracks.Length - 1)) {
+			lastTrackPlayed += 1;
+			StartCoroutine(unmuteBackgroundTrack(lastTrackPlayed, 1.0f));
+		}
 	}
 
 	private IEnumerator muteBackgroundTrack(int index, float time) {
