@@ -22,6 +22,7 @@ public class ControlSurface : MonoBehaviour
 	public ControlPanel[,] gridPanels;
 	public GameObject PanelPool;
 	public GameObject PrefabPanel;
+	public GameObject jukebox;
 
 	// Use this for initialization
 	void Start()
@@ -89,6 +90,10 @@ public class ControlSurface : MonoBehaviour
 	{
 		// Model
 		myModel.update ( Time.fixedDeltaTime, viscosity, dampening, waveSpread );
+
+		// Update jukebox
+		//Debug.Log(PanelPool.GetComponent<ControlPanelPool>().DiscoveryPercentage);
+		jukebox.GetComponent<ControlJukebox>().exploredSpacePercentage = PanelPool.GetComponent<ControlPanelPool>().DiscoveryPercentage;
 	}
 
 	private ControlPanel makePanel(int x, int z)
