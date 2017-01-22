@@ -21,7 +21,7 @@ public class ControlPanel : MonoBehaviour {
 			switch (value) {
 			case PanelForceActionState.None:
 				//renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
-				renderer.material.color = Color.white;
+				//renderer.material.color = Color.white;
 				renderer.material.mainTexture = texturePalette[0];
 				break;
 			case PanelForceActionState.Pulse:
@@ -29,7 +29,7 @@ public class ControlPanel : MonoBehaviour {
 				renderer.material.mainTexture = texturePalette[1];
 				break;
 			case PanelForceActionState.Oscillator:
-				renderer.material.color = Color.white;
+				//renderer.material.color = Color.white;
 				renderer.material.mainTexture = texturePalette[2];
 				break;
 			}
