@@ -11,10 +11,6 @@ public class FogTagger: MonoBehaviour {
 
 
 	void Start() {
-//		Debug.Log (controlSurface);
-//		foreach (var panel in panels) {
-//			panel.tag = "Undiscovered";
-//		}
 	}
 
 
