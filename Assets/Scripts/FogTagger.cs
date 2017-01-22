@@ -20,8 +20,9 @@ public class FogTagger: MonoBehaviour {
 
 	void Update() {
 		GameObject particle = controlSpawn.particle;
-		if ( particle == null )
-		{
+
+		// fix for not reusing the particle
+		if (particle == null) {
 			return;
 		}
 		var panels = controlSurface.gridPanels;
