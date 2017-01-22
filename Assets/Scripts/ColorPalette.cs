@@ -17,6 +17,16 @@ namespace Assets.Scripts
         void Start()
         {
             Palette = new List<Color>();
+            for (int i = 0; i < 5; i++)
+            {
+                Palette.Add(new Color());
+            }
+            Palette.Add(HSLtoRGB(0, 0, 0));
+            Palette.Add(HSLtoRGB(0, 0, 0.25f));
+            Palette.Add(HSLtoRGB(0, 0, 0.5f));
+            Palette.Add(HSLtoRGB(0, 0, 0.75f));
+            Palette.Add(HSLtoRGB(0, 0, 1));
+
         }
 
         void Update()
@@ -44,11 +54,11 @@ namespace Assets.Scripts
 
             var realLuminance = l;
 
-            Palette.Add(HSLtoRGB(hue, primarySaturation, realLuminance));
-            Palette.Add(HSLtoRGB(hue, primarySaturation, MID_LUMINANCE));
-            Palette.Add(HSLtoRGB(hue, primarySaturation, MAX_LUMINANCE));
-            Palette.Add(HSLtoRGB(hue, secondarySaturation, MIN_LUMINANCE));
-            Palette.Add(HSLtoRGB(hue, secondarySaturation, MAX_LUMINANCE));
+            Palette[0] = HSLtoRGB(hue, primarySaturation, realLuminance);
+            Palette[1] = HSLtoRGB(hue, primarySaturation, MID_LUMINANCE);
+            Palette[2] = HSLtoRGB(hue, primarySaturation, MAX_LUMINANCE);
+            Palette[3] = HSLtoRGB(hue, secondarySaturation, MIN_LUMINANCE);
+            Palette[4] = HSLtoRGB(hue, secondarySaturation, MAX_LUMINANCE);
            
         }
 
