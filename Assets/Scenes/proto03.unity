@@ -690,9 +690,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viscosity: 2
-  dampening: 0.2
+  dampening: 0.8
   waveSpread: 5
-  PanelTextureSize: 0.4  PanelPool: {fileID: 883630776}
+  PanelTextureSize: 0.9
+  PanelPool: {fileID: 883630776}
   PrefabPanel: {fileID: 1524867151565348, guid: 66bd428e94918c0439ab67a3c19c8bda,
     type: 2}
   jukebox: {fileID: 357974850}
