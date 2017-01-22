@@ -28,12 +28,14 @@ public class FogTagger: MonoBehaviour {
 		for (int x = 0; x < panels.GetLength (0); x++) {
 			for (int z = 0; z < panels.GetLength (1); z++) {
 				var panel = panels [x, z];
-				if (panel.FogState == PanelFogState.InSight) {
-					panel.FogState = PanelFogState.Discovered;
-				}
-
-				if (Vector3.Distance (particleGridCoord, new Vector3 (x, 0, z)) < IN_SIGHT_RANGE ) {
+				
+				if (Vector3.Distance (particleGridCoord, new Vector3 (x, 0, z)) < IN_SIGHT_RANGE )
+				{
 					panel.FogState = PanelFogState.InSight;
+				}
+				else if ( panel.FogState == PanelFogState.InSight )
+				{
+					panel.FogState = PanelFogState.Discovered;
 				}
 			}
 		}
