@@ -6,6 +6,9 @@ public class ControlPanel : MonoBehaviour {
 
 	private PanelFogState state;
 
+	private Color[] colorPalette;
+
+
 	public PanelFogState State {
 		get { return state; }
 		set { 
@@ -13,13 +16,13 @@ public class ControlPanel : MonoBehaviour {
 			//Debug.Log (gameObject);
 			switch (value) {
 			case PanelFogState.Undiscovered:
-				renderer.material.shader = Shader.Find ( "UI/Default" );
+				renderer.material.color = colorPalette [0];
 				break;
 			case PanelFogState.Discovered:
-				renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
+				renderer.material.color = colorPalette [1];
 				break;
 			case PanelFogState.InSight:
-				renderer.material.shader = Shader.Find ( "Standard" );
+				renderer.material.color = colorPalette [2];
 				break;
 			}
 			state = value;
@@ -28,7 +31,12 @@ public class ControlPanel : MonoBehaviour {
 	}
 
 	void Start () {
-		//State = PanelFogState.Undiscovered;
+		colorPalette = new Color[3];
+		colorPalette [0] = Color.black;
+		colorPalette [1] = Color.gray;
+		colorPalette [2] = Color.blue;
+
+		State = PanelFogState.Undiscovered;
 	}
 	
 	void Update () {

@@ -92,7 +92,9 @@ public class ControlSurface : MonoBehaviour
 		
 		panel.transform.localScale = new Vector3 ( 0.3f, 1f, 0.3f );
 		panel.transform.localRotation = Quaternion.identity;
-		panel.GetComponentInChildren<ControlPanel> ().State = PanelFogState.Undiscovered;
+
+		var renderer = gameObject.GetComponentInChildren<Renderer> ();
+		renderer.material.shader = Shader.Find ("Standard");
 
 		return panel.transform.Find ( "Model" ).gameObject;
 	}
