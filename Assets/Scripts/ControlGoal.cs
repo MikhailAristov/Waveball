@@ -16,7 +16,7 @@ public class ControlGoal : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(hitCounter >= targetHitCount) {
+		if(hitCounter >= targetHitCount || Input.GetButton("NextLevel")) {
 			hitCounter = 0;
 			SceneManager.LoadScene( nextLevelName, LoadSceneMode.Single );
 			SceneManager.LoadScene ( "IngameMenu", LoadSceneMode.Additive );
