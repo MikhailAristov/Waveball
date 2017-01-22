@@ -580,7 +580,7 @@ MonoBehaviour:
   particle: {fileID: 0}
   particlePrefab: {fileID: 1501049089627322, guid: 593ff91a1b9a455408c7863236cbb98d,
     type: 2}
-  colorPalette: {fileID: 0}
+  colorPalette: {fileID: 1145422916}
 --- !u!1 &687897513
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +869,8 @@ GameObject:
   - component: {fileID: 1145422913}
   - component: {fileID: 1145422914}
   - component: {fileID: 1145422915}
+  - component: {fileID: 1145422916}
+  - component: {fileID: 1145422917}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -972,7 +974,7 @@ MonoBehaviour:
   PrefabPanel: {fileID: 1524867151565348, guid: 66bd428e94918c0439ab67a3c19c8bda,
     type: 2}
   jukebox: {fileID: 2043778739}
-  colorPalette: {fileID: 0}
+  colorPalette: {fileID: 1145422916}
 --- !u!114 &1145422914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +997,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f56abac1ac1c49d6a09dbc7096306a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1145422916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145422908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b6585d7f7574840b0c58d97b77d62a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  H: 0.5
+  S: 0.5
+  L: 0.5
+  Palette:
+  - {r: 0.8161765, g: 0.09602076, b: 0.09602076, a: 1}
+  - {r: 0.18376946, g: 0.40133563, b: 0.75735295, a: 1}
+  - {r: 0, g: 1, b: 0.048275948, a: 1}
+  - {r: 0.61379313, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.8482759, b: 0, a: 1}
+  - {r: 1, g: 0.8482759, b: 0, a: 0}
+  - {r: 1, g: 0.8482759, b: 0, a: 1}
+  - {r: 1, g: 0.8482759, b: 0, a: 1}
+--- !u!114 &1145422917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145422908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5093d459cc9374d159163e8672a4d724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlSurface: {fileID: 1145422913}
+  controlSpawn: {fileID: 657183420}
 --- !u!1 &1398153747
 GameObject:
   m_ObjectHideFlags: 0
