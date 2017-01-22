@@ -7,5 +7,3 @@ public enum PanelFogState
 	Discovered,
 	InSight
 }
-
-

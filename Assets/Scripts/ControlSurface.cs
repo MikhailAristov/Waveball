@@ -148,5 +148,14 @@ public class ControlSurface : MonoBehaviour
 		int zGrid = Mathf.RoundToInt ( zPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
 
 		myModel.toggleOscillatorAtPosition ( xGrid, zGrid, pulseForce );
+
+		bool isOscil = myModel.oscillatorMap [xGrid, zGrid];
+
+		if (isOscil) {
+			gridPanels [xGrid, zGrid].GetComponentInChildren<ControlPanel> ().ActionState = PanelForceActionState.Oscillator;
+		} else {
+			gridPanels [xGrid, zGrid].GetComponentInChildren<ControlPanel> ().ActionState = PanelForceActionState.None;
+		}
+	
 	}
 }

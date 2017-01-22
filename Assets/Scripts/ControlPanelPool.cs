@@ -13,16 +13,20 @@ public class ControlPanelPool : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
+	}
+
+	private void updateDiscoveryPercentage() {
 		var panels = gameObject.GetComponentsInChildren<ControlPanel> ();
 
 
 		int sumDiscovered = 0;
 		foreach (var panel in panels) {
-			if (panel.State == PanelFogState.Discovered || panel.State == PanelFogState.InSight) {
+			if (panel.FogState == PanelFogState.Discovered || panel.FogState == PanelFogState.InSight) {
 				sumDiscovered++;
 			}
 		}
-
 		DiscoveryPercentage = (float) sumDiscovered / panels.Length;
 		Debug.Log (DiscoveryPercentage);
 	}
