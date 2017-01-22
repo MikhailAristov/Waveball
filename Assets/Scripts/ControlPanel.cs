@@ -55,9 +55,8 @@ public class ControlPanel : MonoBehaviour {
 					alphaTaget = 1;
 					break;
 			case PanelFogState.InSight:
-				renderer.material.color = colorPalette.Palette[3];
-					alphaTaget = 1;
-					break;
+				renderer.material.color = colorPalette.Palette[2];
+				break;
 			}
 			fogState = value;
 		} 

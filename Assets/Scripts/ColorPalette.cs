@@ -20,18 +20,22 @@ public class ColorPalette : MonoBehaviour
 	void Awake()
 	{
 		Palette = new List<Color> (10);
-	    for (int i = 0; i < 5; i++)
-	    {
-	        Palette.Add(new Color());
-	    }
-
-		Palette.Add ( HSLtoRGB ( 0, 0, 0 ) );
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    Palette.Add(new Color());
+        //}
+        Palette.Add(new Color((float)6/255, (float)112 /255, (float)127 /255));
+        Palette.Add(new Color((float)10 /255, (float)179 /255, (float)204 /255));
+        Palette.Add(new Color((float)13 /255, (float)224 /255, (float)225 /255));
+        Palette.Add(new Color((float)45 /255, (float)117 /255, (float)227 /255));
+        Palette.Add(new Color((float)89 /255, (float)234 /255, (float)255 /255));
+        Palette.Add ( HSLtoRGB ( 0, 0, 0 ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 0.25f ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 0.5f ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 0.75f ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 1 ) );
 
-		CreatePaletteWith ( H, S, L );
+		//CreatePaletteWith ( H, S, L );
 	}
 
 	private void CreatePaletteWith(float h, float s, float l)
