@@ -35,6 +35,7 @@ public class FogTagger: MonoBehaviour {
 
 				if (isInRange (particleGridCoord, new Vector3 (x, 0, z))) {
 					panel.GetComponentInParent<ControlPanel> ().State = PanelFogState.InSight;
+					Debug.Log ("InSight");
 				}
 			}
 		}
