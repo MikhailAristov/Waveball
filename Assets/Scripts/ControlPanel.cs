@@ -14,11 +14,13 @@ public class ControlPanel : MonoBehaviour {
 	public Transform Model;
 	public Renderer ModelRenderer;
 
+	private float alpha;
+	private float alphaTaget;
 
 	public PanelForceActionState ActionState {
 		get { return forceActionState; }
 		set { 
-			var renderer = gameObject.GetComponentInChildren<Renderer> ();
+			var renderer = ModelRenderer;
 			switch (value) {
 			case PanelForceActionState.None:
 				//renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
@@ -41,17 +43,21 @@ public class ControlPanel : MonoBehaviour {
 	public PanelFogState FogState {
 		get { return fogState; }
 		set { 
-			var renderer = gameObject.GetComponentInChildren<Renderer> ();
+			var renderer = ModelRenderer;
+			Color c;
 			switch (value) {
 			case PanelFogState.Undiscovered:
-				renderer.material.color = colorPalette.Palette[5];
+				renderer.material.color = Color.clear;
+					alphaTaget = 0;
 				break;
 			case PanelFogState.Discovered:
 				renderer.material.color = colorPalette.Palette[7];
-				break;
+					alphaTaget = 1;
+					break;
 			case PanelFogState.InSight:
 				renderer.material.color = colorPalette.Palette[1];
-				break;
+					alphaTaget = 1;
+					break;
 			}
 			fogState = value;
 		} 
@@ -81,6 +87,11 @@ public class ControlPanel : MonoBehaviour {
 
 	}
 
-	//void Update () {
-	//}
+	void Update()
+	{
+		var c = ModelRenderer.material.color;
+		alpha = Mathf.Lerp( alpha, alphaTaget, 3f *Time.deltaTime);
+		c.a = alpha;
+		ModelRenderer.material.color = c;
+	}
 }

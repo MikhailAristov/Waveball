@@ -133,7 +133,7 @@ public class ControlSurface : MonoBehaviour
 		foreach ( var panel in gridPanels )
 		{
 			var renderer = panel.ModelRenderer;
-			renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
+			//renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
 			renderer.material.SetColor ( "_Transparent", Color.clear );
 			renderer.material.mainTexture = texture;
 		}
