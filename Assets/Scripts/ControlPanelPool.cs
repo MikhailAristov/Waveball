@@ -13,7 +13,7 @@ public class ControlPanelPool : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		updateDiscoveryPercentage ();
 
 	}
 
