@@ -29,7 +29,6 @@ public class ControlPanel : MonoBehaviour {
 				renderer.material.mainTexture = texturePalette[1];
 				break;
 			case PanelForceActionState.Oscillator:
-				Debug.Log ("oscil set");
 				renderer.material.color = Color.white;
 				renderer.material.mainTexture = texturePalette[2];
 				break;
