@@ -152,9 +152,10 @@ public class ControlSurface : MonoBehaviour
 		bool isOscil = myModel.oscillatorMap [xGrid, zGrid];
 
 		if (isOscil) {
-			gridPanels [xGrid, zGrid].GetComponentInChildren<ControlPanel> ().ActionState = PanelForceActionState.Oscillator;
+			//Debug.Log (gridPanels [xGrid, zGrid].GetComponentInParent<ControlPanel>());
+			gridPanels [xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.Oscillator;
 		} else {
-			gridPanels [xGrid, zGrid].GetComponentInChildren<ControlPanel> ().ActionState = PanelForceActionState.None;
+			gridPanels [xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.None;
 		}
 	
 	}

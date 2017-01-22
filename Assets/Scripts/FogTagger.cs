@@ -23,6 +23,11 @@ public class FogTagger: MonoBehaviour {
 	void Update() {
 		panels = controlSurface.gridPanels;
 		GameObject particle = controlSpawn.particle;
+
+		// fix for not reusing the particle
+		if (particle == null) {
+			return;
+		}
 		Vector3 particleGridCoord = controlSurface.worldPosToGrid (particle.transform.position.x, particle.transform.position.z);
 
 		// update previous visibility
