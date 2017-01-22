@@ -673,7 +673,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Waveball
+  m_Text: flown
 --- !u!222 &509753990
 CanvasRenderer:
   m_ObjectHideFlags: 0
