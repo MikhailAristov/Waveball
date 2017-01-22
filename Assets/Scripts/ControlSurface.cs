@@ -60,6 +60,9 @@ public class ControlSurface : MonoBehaviour
 		}
 		// Graphic
 		Quaternion q1 = Quaternion.LookRotation ( -Vector3.up );
+
+
+		//q1 = Quaternion.AngleAxis(90, new Vector3(1f, 0f, 0f));
 		for ( int x = 0; x < gridSizeX; x++ )
 		{
 			for ( int z = 0; z < gridSizeZ; z++ )
@@ -71,7 +74,14 @@ public class ControlSurface : MonoBehaviour
 				Vector3 gradient = myModel.getGradientAtPoint ( x, z );
 
 				Quaternion q2 = Quaternion.FromToRotation ( new Vector3 ( 1f, 0f, 0f ), new Vector3 ( gradient.x, gradient.z, 0f ) );
-				trans.localRotation = q1 * q2;
+				Quaternion q = q1 * q2;
+
+				// Quaternion gimbal lock invert prevent
+				if (Mathf.Abs(q.eulerAngles.x) > 200f) {
+					Debug.Log (q);
+					q = new Quaternion (-q.x, q.y, -q.z, q.w);
+				}
+				trans.localRotation = q;
 			}
 		}
 	}

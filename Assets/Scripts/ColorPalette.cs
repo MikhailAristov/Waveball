@@ -17,6 +17,11 @@ public class ColorPalette : MonoBehaviour
 	void Start()
 	{
 		Palette = new List<Color> ();
+		Palette.Add ( HSLtoRGB ( 0, 0, 0 ) );
+		Palette.Add ( HSLtoRGB ( 0, 0, 0.25f ) );
+		Palette.Add ( HSLtoRGB ( 0, 0, 0.5f ) );
+		Palette.Add ( HSLtoRGB ( 0, 0, 0.75f ) );
+		Palette.Add ( HSLtoRGB ( 0, 0, 1 ) );
 
 		float h, s, v;
 		Color.RGBToHSV ( MainColor, out h, out s, out v );
@@ -32,11 +37,11 @@ public class ColorPalette : MonoBehaviour
 
 		var realLuminance = l;
 
-		Palette.Add ( HSLtoRGB ( hue, primarySaturation, realLuminance ) );
-		Palette.Add ( HSLtoRGB ( hue, primarySaturation, MID_LUMINANCE ) );
-		Palette.Add ( HSLtoRGB ( hue, primarySaturation, MAX_LUMINANCE ) );
-		Palette.Add ( HSLtoRGB ( hue, secondarySaturation, MIN_LUMINANCE ) );
-		Palette.Add ( HSLtoRGB ( hue, secondarySaturation, MAX_LUMINANCE ) );
+		Palette[0] = HSLtoRGB ( hue, primarySaturation, realLuminance );
+		Palette[1] = HSLtoRGB ( hue, primarySaturation, MID_LUMINANCE );
+		Palette[2] = HSLtoRGB ( hue, primarySaturation, MAX_LUMINANCE );
+		Palette[3] = HSLtoRGB ( hue, secondarySaturation, MIN_LUMINANCE );
+		Palette[4] = HSLtoRGB ( hue, secondarySaturation, MAX_LUMINANCE );
 	}
 
 	private Color HSLtoRGB(float h, float s, float l)
