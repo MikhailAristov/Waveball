@@ -10,25 +10,30 @@ public class ColorPalette : MonoBehaviour
 	private const int MID_LUMINANCE = 80;
 	private const int MAX_LUMINANCE = 100;
 
-	public Color MainColor;
+	public float H;
+    public float S;
+    public float L;
 
 	public List<Color> Palette;
 
-	void Start()
+	void Awake()
 	{
-		Palette = new List<Color> ();
+		Palette = new List<Color> (10);
+	    for (int i = 0; i < 5; i++)
+	    {
+	        Palette.Add(new Color());
+	    }
+
 		Palette.Add ( HSLtoRGB ( 0, 0, 0 ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 0.25f ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 0.5f ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 0.75f ) );
 		Palette.Add ( HSLtoRGB ( 0, 0, 1 ) );
 
-		float h, s, v;
-		Color.RGBToHSV ( MainColor, out h, out s, out v );
-		CreatePaletteWith ( h, s, v );
+		CreatePaletteWith ( H, S, L );
 	}
 
-	public void CreatePaletteWith(float h, float s, float l)
+	private void CreatePaletteWith(float h, float s, float l)
 	{
 		var hue = h;
 

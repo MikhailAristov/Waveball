@@ -22,9 +22,9 @@ public class ControlSpawn : MonoBehaviour {
 			if(GameObject.FindGameObjectsWithTag("Player").Length <= 0) {
 
 				Vector3 spawnPos = transform.position + transform.up * 0.7f;
-				var particle = Instantiate( particlePrefab, spawnPos, Quaternion.identity);
-				particle.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
-				this.particle = particle.GetComponent<ControlParticle> ();
+				var instantiate = Instantiate( particlePrefab, spawnPos, Quaternion.identity);
+				instantiate.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
+				this.particle = instantiate.GetComponent<ControlParticle> ();
 				this.particle.surface = this.surface;
 				this.particle.jukebox = this.jukebox;
 				this.particle.SetColor ( colorPalette.Palette[0] );

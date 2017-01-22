@@ -676,7 +676,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b6585d7f7574840b0c58d97b77d62a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainColor: {r: 0, g: 0, b: 0, a: 0}
+  H: 0.7294118
+  S: 0.22352941
+  L: 0.19607843
   Palette: []
 --- !u!4 &1145422912
 Transform:
