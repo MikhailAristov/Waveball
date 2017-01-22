@@ -25,7 +25,7 @@ public class ControlSurface : MonoBehaviour
 	public GameObject jukebox;
 	public ColorPalette colorPalette;
 
-	// Use this for initialization
+	[UnityEngine.ContextMenu ( "Generate Surface" )]
 	void Start()
 	{
 		meshSizeX = 10f * 2f * transform.localScale.x;
@@ -77,9 +77,10 @@ public class ControlSurface : MonoBehaviour
 				Quaternion q = q1 * q2;
 
 				// Quaternion gimbal lock invert prevent
-				if (Mathf.Abs(q.eulerAngles.x) > 200f) {
-					Debug.Log (q);
-					q = new Quaternion (-q.x, q.y, -q.z, q.w);
+				if ( Mathf.Abs ( q.eulerAngles.x ) > 200f )
+				{
+					Debug.Log ( q );
+					q = new Quaternion ( -q.x, q.y, -q.z, q.w );
 				}
 				trans.localRotation = q;
 			}
@@ -103,21 +104,26 @@ public class ControlSurface : MonoBehaviour
 		float zPos = (z - Mathf.Ceil ( gridSizeZ / 2 )) * PANEL_SIZE;
 		Vector3 originPoint = new Vector3 ( xPos, 0.1f, zPos );
 
-		//PanelPool.transform.Find ( "Panel[" + x + "][" + z + "]" );
+		GameObject panel;
+		var find = PanelPool.transform.Find ( "Panel[" + x + "][" + z + "]" );
+		if ( find != null )
+		{
+			panel = find.gameObject;
+		}
+		else
+		{
+			panel = Instantiate<GameObject> ( PrefabPanel );
+			panel.name = "Panel[" + x + "][" + z + "]";
+			panel.transform.parent = PanelPool.transform;
+			panel.transform.localPosition = originPoint;
 
-		var panel = Instantiate<GameObject> ( PrefabPanel );
-		panel.name = "Panel[" + x + "][" + z + "]";
-		panel.transform.parent = PanelPool.transform;
-		panel.transform.localPosition = originPoint;
-
-		panel.transform.localScale = new Vector3 ( PANEL_SIZE, 1f, PANEL_SIZE );
-		panel.transform.localRotation = Quaternion.identity;
-
-		var renderer = gameObject.GetComponentInChildren<Renderer> ();
-		renderer.material.shader = Shader.Find ( "Standard" );
+			panel.transform.localScale = new Vector3 ( PANEL_SIZE, 1f, PANEL_SIZE );
+			panel.transform.localRotation = Quaternion.identity;
+		}
 
 		var control = panel.GetComponent<ControlPanel> ();
-		control.SetColor ( colorPalette.Palette[Random.Range ( 1, colorPalette.Palette.Count - 2 )] );
+		if ( colorPalette != null && colorPalette.Palette != null && colorPalette.Palette.Count > 0 )
+			control.SetColor ( colorPalette.Palette[Random.Range ( 1, colorPalette.Palette.Count - 2 )] );
 		return control;
 	}
 
