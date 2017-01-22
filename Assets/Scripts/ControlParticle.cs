@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ControlParticle : MonoBehaviour
 {
@@ -34,6 +35,11 @@ public class ControlParticle : MonoBehaviour
 			jukeboxControl.playDeathSound();
 			Destroy(gameObject);
 		} 
+	}
+
+	public void SetColor(Color color)
+	{
+
 	}
 
 	void Update()

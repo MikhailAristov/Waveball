@@ -23,6 +23,7 @@ public class ControlSurface : MonoBehaviour
 	public GameObject PanelPool;
 	public GameObject PrefabPanel;
 	public GameObject jukebox;
+	public ColorPalette colorPalette;
 
 	// Use this for initialization
 	void Start()
@@ -83,7 +84,7 @@ public class ControlSurface : MonoBehaviour
 
 		// Update jukebox
 		//Debug.Log(PanelPool.GetComponent<ControlPanelPool>().DiscoveryPercentage);
-		jukebox.GetComponent<ControlJukebox>().exploredSpacePercentage = PanelPool.GetComponent<ControlPanelPool>().DiscoveryPercentage;
+		jukebox.GetComponent<ControlJukebox> ().exploredSpacePercentage = PanelPool.GetComponent<ControlPanelPool> ().DiscoveryPercentage;
 	}
 
 	private ControlPanel makePanel(int x, int z)
@@ -91,6 +92,8 @@ public class ControlSurface : MonoBehaviour
 		float xPos = (x - Mathf.Ceil ( gridSizeX / 2 )) * PANEL_SIZE;
 		float zPos = (z - Mathf.Ceil ( gridSizeZ / 2 )) * PANEL_SIZE;
 		Vector3 originPoint = new Vector3 ( xPos, 0.1f, zPos );
+
+		//PanelPool.transform.Find ( "Panel[" + x + "][" + z + "]" );
 
 		var panel = Instantiate<GameObject> ( PrefabPanel );
 		panel.name = "Panel[" + x + "][" + z + "]";
@@ -103,7 +106,9 @@ public class ControlSurface : MonoBehaviour
 		var renderer = gameObject.GetComponentInChildren<Renderer> ();
 		renderer.material.shader = Shader.Find ( "Standard" );
 
-		return panel.GetComponent<ControlPanel> ();
+		var control = panel.GetComponent<ControlPanel> ();
+		control.SetColor ( colorPalette.Palette[Random.Range ( 1, colorPalette.Palette.Count - 2 )] );
+		return control;
 	}
 
 	public void SetPanelTexture(string texturePath)
@@ -157,14 +162,17 @@ public class ControlSurface : MonoBehaviour
 
 		myModel.toggleOscillatorAtPosition ( xGrid, zGrid, pulseForce );
 
-		bool isOscil = myModel.oscillatorMap [xGrid, zGrid];
+		bool isOscil = myModel.oscillatorMap[xGrid, zGrid];
 
-		if (isOscil) {
+		if ( isOscil )
+		{
 			//Debug.Log (gridPanels [xGrid, zGrid].GetComponentInParent<ControlPanel>());
-			gridPanels [xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.Oscillator;
-		} else {
-			gridPanels [xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.None;
+			gridPanels[xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.Oscillator;
 		}
-	
+		else
+		{
+			gridPanels[xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.None;
+		}
+
 	}
 }

@@ -4,82 +4,68 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Scripts
+public class ColorPalette : MonoBehaviour
 {
-    public class ColorPalette : MonoBehaviour
-    {
-        private const int MIN_LUMINANCE = 50;
-        private const int MID_LUMINANCE = 80;
-        private const int MAX_LUMINANCE = 100;
+	private const int MIN_LUMINANCE = 50;
+	private const int MID_LUMINANCE = 80;
+	private const int MAX_LUMINANCE = 100;
 
-        public List<Color> Palette { get; set; }
+	public Color MainColor;
 
-        void Start()
-        {
-            Palette = new List<Color>();
-        }
+	public List<Color> Palette;
 
-        void Update()
-        {
-            
-        }
+	void Start()
+	{
+		Palette = new List<Color> ();
 
-        //public void CreatePaletteWith(Color color)
-        //{
-            
-        //}
+		float h, s, v;
+		Color.RGBToHSV ( MainColor, out h, out s, out v );
+		CreatePaletteWith ( h, s, v );
+	}
 
+	public void CreatePaletteWith(float h, float s, float l)
+	{
+		var hue = h;
 
-        //public void CreatePaletteWith(int r, int g, int b, float a = 1.0f)
-        //{
-            
-        //}
+		var primarySaturation = s;
+		var secondarySaturation = (s >= 30) ? s - 30 : s + 30;
 
-        public void CreatePaletteWith(float h, float s, float l)
-        {
-            var hue = h;
+		var realLuminance = l;
 
-            var primarySaturation = s;
-            var secondarySaturation = (s >= 30) ? s - 30 : s + 30;
+		Palette.Add ( HSLtoRGB ( hue, primarySaturation, realLuminance ) );
+		Palette.Add ( HSLtoRGB ( hue, primarySaturation, MID_LUMINANCE ) );
+		Palette.Add ( HSLtoRGB ( hue, primarySaturation, MAX_LUMINANCE ) );
+		Palette.Add ( HSLtoRGB ( hue, secondarySaturation, MIN_LUMINANCE ) );
+		Palette.Add ( HSLtoRGB ( hue, secondarySaturation, MAX_LUMINANCE ) );
+	}
 
-            var realLuminance = l;
+	private Color HSLtoRGB(float h, float s, float l)
+	{
+		float r, g, b;
 
-            Palette.Add(HSLtoRGB(hue, primarySaturation, realLuminance));
-            Palette.Add(HSLtoRGB(hue, primarySaturation, MID_LUMINANCE));
-            Palette.Add(HSLtoRGB(hue, primarySaturation, MAX_LUMINANCE));
-            Palette.Add(HSLtoRGB(hue, secondarySaturation, MIN_LUMINANCE));
-            Palette.Add(HSLtoRGB(hue, secondarySaturation, MAX_LUMINANCE));
-           
-        }
+		if ( s == 0 )
+		{
+			r = g = b = (int)(l * 255); // achromatic
+		}
+		else
+		{
+			var q = l < 0.5f ? l * (1 + s) : l + s - l * s;
+			var p = 2 * l - q;
+			r = hue2rgb ( p, q, h + 1 / 3 );
+			g = hue2rgb ( p, q, h );
+			b = hue2rgb ( p, q, h - 1 / 3 );
+		}
 
-        private Color HSLtoRGB(float h, float s, float l)
-        {
-            float r, g, b;
+		return new Color ( r * 255, g * 255, b * 255 );
+	}
 
-            if (s == 0)
-            {
-                r = g = b = (int)(l * 255); // achromatic
-            }
-            else
-            {
-                var q = l < 0.5f ? l * (1 + s) : l + s - l * s;
-                var p = 2 * l - q;
-                r = hue2rgb(p, q, h + 1 / 3);
-                g = hue2rgb(p, q, h);
-                b = hue2rgb(p, q, h - 1 / 3);
-            }
-
-            return new Color(r * 255, g * 255, b * 255);
-        }
-
-        private float hue2rgb(float p, float q, float t)
-        {
-            if (t < 0) t += 1;
-            else if (t > 1) t -= 1;
-            else if (t < 1 / 6) return p + (q - p) * 6 * t;
-            else if (t < 1 / 2) return q;
-            else if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-        }
-    }
+	private float hue2rgb(float p, float q, float t)
+	{
+		if ( t < 0 ) t += 1;
+		else if ( t > 1 ) t -= 1;
+		else if ( t < 1 / 6 ) return p + (q - p) * 6 * t;
+		else if ( t < 1 / 2 ) return q;
+		else if ( t < 2 / 3 ) return p + (q - p) * (2 / 3 - t) * 6;
+		return p;
+	}
 }

@@ -8,7 +8,9 @@ public class ControlSpawn : MonoBehaviour {
 
 	public GameObject surface;
 	public GameObject jukebox;
-	public GameObject particle;
+	public ControlParticle particle;
+	public GameObject particlePrefab;
+	public ColorPalette colorPalette;
 
 	// Use this for initialization
 	void Start () {
@@ -18,12 +20,14 @@ public class ControlSpawn : MonoBehaviour {
 	private IEnumerator keepSpawningParticles() {
 		while(spawnActive) {
 			if(GameObject.FindGameObjectsWithTag("Player").Length <= 0) {
-				GameObject prefabParticle = Resources.Load("Particle") as GameObject;
+
 				Vector3 spawnPos = transform.position + transform.up * 0.7f;
-				particle = Instantiate(prefabParticle, spawnPos, Quaternion.identity);
+				var particle = Instantiate( particlePrefab, spawnPos, Quaternion.identity);
 				particle.GetComponent<Rigidbody>().velocity = transform.up * 2.0f;
-				particle.GetComponent<ControlParticle>().surface = this.surface;
-				particle.GetComponent<ControlParticle>().jukebox = this.jukebox;
+				this.particle = particle.GetComponent<ControlParticle> ();
+				this.particle.surface = this.surface;
+				this.particle.jukebox = this.jukebox;
+				this.particle.SetColor ( colorPalette.Palette[0] );
 			}
 			// Then wait
 			yield return new WaitForSeconds(1.0f);

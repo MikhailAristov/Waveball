@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -78,7 +79,12 @@ public class ControlPanel : MonoBehaviour {
 		ActionState = PanelForceActionState.None;
 
 	}
-	
+
+	public void SetColor(Color color)
+	{
+
+	}
+
 	//void Update () {
 	//}
 }
