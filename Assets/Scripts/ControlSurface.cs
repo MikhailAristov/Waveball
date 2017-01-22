@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControlSurface : MonoBehaviour
 {
-	const float MESH_ELEMENT_SIZE = 0.5f;
+	const float PANEL_SIZE = 0.5f;
 	public float viscosity = 2.0f;
 	public float dampening = 0.8f;
 	public float waveSpread = 5.0f;
@@ -17,7 +17,9 @@ public class ControlSurface : MonoBehaviour
 	private int gridSizeX;
 	private int gridSizeZ;
 
-	public GameObject[,] gridPanels;
+	public float PanelTextureSize = 0.9f;
+
+	public ControlPanel[,] gridPanels;
 	public GameObject PanelPool;
 	public GameObject PrefabPanel;
 
@@ -29,11 +31,11 @@ public class ControlSurface : MonoBehaviour
 
 		Debug.Log ( "SurfaceSize: X:" + meshSizeX + " Y:" + meshSizeZ + " " + meshSizeX * meshSizeZ );
 
-		gridSizeX = (int)Mathf.Floor ( meshSizeX / MESH_ELEMENT_SIZE ) + 1;
-		gridSizeZ = (int)Mathf.Floor ( meshSizeZ / MESH_ELEMENT_SIZE ) + 1;
+		gridSizeX = (int)Mathf.Floor ( meshSizeX / PANEL_SIZE ) + 1;
+		gridSizeZ = (int)Mathf.Floor ( meshSizeZ / PANEL_SIZE ) + 1;
 
 		// Create Panels
-		gridPanels = new GameObject[gridSizeX, gridSizeZ];
+		gridPanels = new ControlPanel[gridSizeX, gridSizeZ];
 		for ( int x = 0; x < gridSizeX; x++ )
 		{
 			for ( int z = 0; z < gridSizeZ; z++ )
@@ -60,9 +62,9 @@ public class ControlSurface : MonoBehaviour
 		{
 			for ( int z = 0; z < gridSizeZ; z++ )
 			{
-				var trans = gridPanels[x, z].transform;
-				float scaleFactor = Mathf.Max ( 0f, 0.3f + myModel.vertPos[x, z] / 2f );
-				trans.localScale = new Vector3 ( scaleFactor, 1f, scaleFactor );
+				var trans = gridPanels[x, z].Model;
+				float scaleFactor = Mathf.Max ( 0f, PanelTextureSize + myModel.vertPos[x, z] / 2f );
+				trans.localScale = new Vector3 ( scaleFactor, scaleFactor, 1f );
 
 				Vector3 gradient = myModel.getGradientAtPoint ( x, z );
 
@@ -79,24 +81,24 @@ public class ControlSurface : MonoBehaviour
 		myModel.update ( Time.fixedDeltaTime, viscosity, dampening, waveSpread );
 	}
 
-	private GameObject makePanel(int x, int z)
+	private ControlPanel makePanel(int x, int z)
 	{
-		float xPos = (x - Mathf.Ceil ( gridSizeX / 2 )) * MESH_ELEMENT_SIZE;
-		float zPos = (z - Mathf.Ceil ( gridSizeZ / 2 )) * MESH_ELEMENT_SIZE;
+		float xPos = (x - Mathf.Ceil ( gridSizeX / 2 )) * PANEL_SIZE;
+		float zPos = (z - Mathf.Ceil ( gridSizeZ / 2 )) * PANEL_SIZE;
 		Vector3 originPoint = new Vector3 ( xPos, 0.1f, zPos );
 
-		GameObject panel = Instantiate<GameObject> ( PrefabPanel );
+		var panel = Instantiate<GameObject> ( PrefabPanel );
 		panel.name = "Panel[" + x + "][" + z + "]";
 		panel.transform.parent = PanelPool.transform;
 		panel.transform.localPosition = originPoint;
-		
-		panel.transform.localScale = new Vector3 ( 0.3f, 1f, 0.3f );
+
+		panel.transform.localScale = new Vector3 ( PANEL_SIZE, 1f, PANEL_SIZE );
 		panel.transform.localRotation = Quaternion.identity;
 
 		var renderer = gameObject.GetComponentInChildren<Renderer> ();
-		renderer.material.shader = Shader.Find ("Standard");
+		renderer.material.shader = Shader.Find ( "Standard" );
 
-		return panel.transform.Find ( "Model" ).gameObject;
+		return panel.GetComponent<ControlPanel> ();
 	}
 
 	public void SetPanelTexture(string texturePath)
@@ -104,17 +106,18 @@ public class ControlSurface : MonoBehaviour
 		var texture = Resources.Load ( texturePath ) as Texture2D;
 		foreach ( var panel in gridPanels )
 		{
-			var renderer = panel.GetComponent<Renderer> ();
+			var renderer = panel.ModelRenderer;
 			renderer.material.shader = Shader.Find ( "Unlit/Transparent" );
 			renderer.material.SetColor ( "_Transparent", Color.clear );
 			renderer.material.mainTexture = texture;
 		}
 	}
-	
-	public Vector3 worldPosToGrid(float xPos, float zPos) {
-		int xGrid = Mathf.RoundToInt(xPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeX / 2);
-		int zGrid = Mathf.RoundToInt(zPos / MESH_ELEMENT_SIZE) + Mathf.FloorToInt(gridSizeZ / 2);
-		return new Vector3 (xGrid, 0, zGrid);
+
+	public Vector3 worldPosToGrid(float xPos, float zPos)
+	{
+		int xGrid = Mathf.RoundToInt ( xPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
+		int zGrid = Mathf.RoundToInt ( zPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
+		return new Vector3 ( xGrid, 0, zGrid );
 	}
 
 	public Vector3 getGradientAtPosition(Vector3 transformPos)
@@ -122,8 +125,8 @@ public class ControlSurface : MonoBehaviour
 		float xPos = transformPos.x;
 		float zPos = transformPos.z;
 
-		int xGrid = Mathf.RoundToInt ( xPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
-		int zGrid = Mathf.RoundToInt ( zPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
+		int xGrid = Mathf.RoundToInt ( xPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
+		int zGrid = Mathf.RoundToInt ( zPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
 
 		return myModel.getGradientAtPoint ( xGrid, zGrid );
 	}
@@ -133,8 +136,8 @@ public class ControlSurface : MonoBehaviour
 		float xPos = transformPos.x;
 		float zPos = transformPos.z;
 
-		int xGrid = Mathf.RoundToInt ( xPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
-		int zGrid = Mathf.RoundToInt ( zPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
+		int xGrid = Mathf.RoundToInt ( xPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
+		int zGrid = Mathf.RoundToInt ( zPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
 
 		myModel.setPulseAtPoint ( xGrid, zGrid, pulseForce );
 	}
@@ -144,8 +147,8 @@ public class ControlSurface : MonoBehaviour
 		float xPos = transformPos.x;
 		float zPos = transformPos.z;
 
-		int xGrid = Mathf.RoundToInt ( xPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
-		int zGrid = Mathf.RoundToInt ( zPos / MESH_ELEMENT_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
+		int xGrid = Mathf.RoundToInt ( xPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeX / 2 );
+		int zGrid = Mathf.RoundToInt ( zPos / PANEL_SIZE ) + Mathf.FloorToInt ( gridSizeZ / 2 );
 
 		myModel.toggleOscillatorAtPosition ( xGrid, zGrid, pulseForce );
 	}

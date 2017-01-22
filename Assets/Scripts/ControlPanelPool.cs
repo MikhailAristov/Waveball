@@ -24,6 +24,6 @@ public class ControlPanelPool : MonoBehaviour {
 		}
 
 		DiscoveryPercentage = (float) sumDiscovered / panels.Length;
-		Debug.Log (DiscoveryPercentage);
+		//Debug.Log (DiscoveryPercentage);
 	}
 }

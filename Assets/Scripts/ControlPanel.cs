@@ -8,6 +8,8 @@ public class ControlPanel : MonoBehaviour {
 
 	private Color[] colorPalette;
 
+	public Transform Model;
+	public Renderer ModelRenderer;
 
 	public PanelFogState State {
 		get { return state; }
@@ -30,6 +32,13 @@ public class ControlPanel : MonoBehaviour {
 		 
 	}
 
+	private void Awake()
+	{
+		if(Model == null)
+			Model = transform.Find ("Model");
+		ModelRenderer = Model.GetComponent<Renderer> ();
+	}
+
 	void Start () {
 		colorPalette = new Color[3];
 		colorPalette [0] = Color.black;
@@ -39,7 +48,6 @@ public class ControlPanel : MonoBehaviour {
 		State = PanelFogState.Undiscovered;
 	}
 	
-	void Update () {
-		
-	}
+	//void Update () {
+	//}
 }
