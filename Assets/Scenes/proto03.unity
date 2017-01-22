@@ -189,7 +189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &259953561
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -686,6 +686,7 @@ MonoBehaviour:
   viscosity: 2
   dampening: 0.2
   waveSpread: 5
+  PanelTextureSize: 0.4
   PanelPool: {fileID: 883630776}
   PrefabPanel: {fileID: 1524867151565348, guid: 66bd428e94918c0439ab67a3c19c8bda,
     type: 2}
