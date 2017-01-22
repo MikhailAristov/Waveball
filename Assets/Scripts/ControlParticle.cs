@@ -11,12 +11,15 @@ public class ControlParticle : MonoBehaviour
 
 	public GameObject surface;
 	private ControlSurface surfaceControl;
+	public GameObject jukebox;
+	private ControlJukebox jukeboxControl;
 
 	// Use this for initialization
 	void Start()
 	{
 		myRigidBody = GetComponent<Rigidbody> ();
 		surfaceControl = surface.GetComponent<ControlSurface> ();
+		jukeboxControl = jukebox.GetComponent<ControlJukebox> ();
 	}
 
 	// Update is called once per frame
@@ -28,7 +31,7 @@ public class ControlParticle : MonoBehaviour
 		}
 
 		if(myRigidBody.velocity.sqrMagnitude < minimalVelocityBeforeDeath) {
-			Debug.Log("object stopped, v = " + myRigidBody.velocity.sqrMagnitude);
+			jukeboxControl.playDeathSound();
 			Destroy(gameObject);
 		} 
 	}
@@ -45,6 +48,7 @@ public class ControlParticle : MonoBehaviour
 		if ( other.CompareTag ( "Finish" ) )
 		{
 			//Debug.LogError ( "YOU HAVE WON" );
+			jukeboxControl.playWinSound();
 			Destroy ( gameObject );
 		}
 	}
@@ -53,7 +57,7 @@ public class ControlParticle : MonoBehaviour
 	{
 		if ( collision.collider.CompareTag ( "Obstacle" ) )
 		{
-			Debug.Log("obstacle collision");
+			jukeboxControl.playDeathSound();
 			Destroy ( gameObject );
 		}
 	}
