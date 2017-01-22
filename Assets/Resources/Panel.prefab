@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4942985769526566}
   - component: {fileID: 33259134709795690}
   - component: {fileID: 23187270927498120}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4443457693015042}
   - component: {fileID: 65212970465990306}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Panel
   m_TagString: Panel
   m_Icon: {fileID: 0}
