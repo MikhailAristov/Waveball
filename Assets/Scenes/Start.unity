@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 268185625}
-  LevelName: proto03
+  LevelName: Level3
 --- !u!1 &509753987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,7 +1126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 268185625}
-  LevelName: proto01
+  LevelName: Level1
 --- !u!1 &1285814080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 268185625}
-  LevelName: proto02
+  LevelName: Level2
 --- !u!1 &1540078378
 GameObject:
   m_ObjectHideFlags: 0
