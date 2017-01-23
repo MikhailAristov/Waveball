@@ -7,24 +7,6 @@ public class ModelSurface {
 
 	const float POSITION_THRESHOLD = 0.0000001f;
 
-	private float[,] SPREAD_MATRIX = new float[3, 3] {
-		{0.103553391f, 0.146446609f, 0.103553391f}, // Magic...
-		{0.146446609f, 0.000000000f, 0.146446609f},
-		{0.103553391f, 0.146446609f, 0.103553391f}
-	};
-
-	private float[,] X_GRADIENT_MATRIX = new float[3, 3] {
-		{-1f/6f, 0f, 1f/6f}, // Previtt
-		{-1f/6f, 0f, 1f/6f},
-		{-1f/6f, 0f, 1f/6f}
-	};
-
-	private float[,] Z_GRADIENT_MATRIX = new float[3, 3] {
-		{-1f/6f, -1f/6f, -1f/6f}, // Previtt
-		{0f, 0f, 0f},
-		{1f/6f, 1f/6f, 1f/6f}
-	};
-
 	public int gridSizeX;
 	public int gridSizeZ;
 
@@ -96,16 +78,19 @@ public class ModelSurface {
 			return sumDelta;
 		}
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				int lookAtIndexX = xPos + i - 1;
-				int lookAtIndexZ = zPos + j - 1;
+		int lookAtIndexX; int lookAtIndexZ; float distanceFactor;
+		for(int i = -1; i <= 1; i++) {
+			lookAtIndexX = xPos + i;
+			for(int j = -1; j <= 1; j++) {
+				lookAtIndexZ = zPos + j;
+				distanceFactor = Mathf.Sqrt(Mathf.Abs(i) + Mathf.Abs(j));
 
 				if(!obstactleMap[lookAtIndexX, lookAtIndexZ]) {
-					sumDelta += SPREAD_MATRIX[i, j] * vertPos[lookAtIndexX, lookAtIndexZ];
+					sumDelta += distanceFactor * vertPos[lookAtIndexX, lookAtIndexZ];
 				}
 			}
 		}
+		sumDelta /= (4 + 4 * Mathf.Sqrt(2)); // the sum has to be normalized to the sum of the distanceFactors 
 		return (sumDelta - vertPos[xPos, zPos]);
 	}
 
@@ -116,19 +101,20 @@ public class ModelSurface {
 			return gradient;
 		}
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				int lookAtIndexX = xPos + i - 1;
-				int lookAtIndexZ = zPos + j - 1;
+		int lookAtIndexX; int lookAtIndexZ;
+		for(int i = -1; i <= 1; i++) {
+			lookAtIndexX = xPos + i;
+			for(int j = -1; j <= 1; j++) {
+				lookAtIndexZ = zPos + j;
 
 				if(!obstactleMap[lookAtIndexX, lookAtIndexZ]) {
-					gradient.x += X_GRADIENT_MATRIX[i, j] * vertPos[lookAtIndexX, lookAtIndexZ];
-					gradient.z += Z_GRADIENT_MATRIX[i, j] * vertPos[lookAtIndexX, lookAtIndexZ];
+					gradient.x += (float)i * vertPos[lookAtIndexX, lookAtIndexZ];
+					gradient.z += (float)j * vertPos[lookAtIndexX, lookAtIndexZ];
 				}
 			}
 		}
 
-		return gradient;
+		return gradient / 6;
 	}
 
 	public void setPulseAtPoint(int xPos, int zPos, float pulseForce) {
@@ -149,5 +135,17 @@ public class ModelSurface {
 			vertPos[xPos, zPos] = amplitude;
 			oscillatorMap[xPos, zPos] = true;
 		}
+	}
+
+	public float getTotalEnergy(float springRate) {
+		float result = 0.0f;
+
+		for(int x = 0; x < gridSizeX; x++) {
+			for(int z = 0; z < gridSizeZ; z++) {
+				result += springRate * vertPos[x, z] * vertPos[x, z] + vertVel[x, z] * vertVel[x, z];
+			}
+		}
+
+		return result / 2;
 	}
 }

@@ -50,6 +50,10 @@ public class ControlSurface : MonoBehaviour
 
 		// Create model
 		myModel = new ModelSurface ( gridSizeX, gridSizeZ );
+		// Launch updater
+		if(Debug.isDebugBuild) {
+			StartCoroutine(outputCurrentSurfaceEnergy(5f));
+		}
 	}
 
 	void Update()
@@ -190,5 +194,13 @@ public class ControlSurface : MonoBehaviour
 			gridPanels[xGrid, zGrid].GetComponentInParent<ControlPanel> ().ActionState = PanelForceActionState.None;
 		}
 
+	}
+
+	public IEnumerator outputCurrentSurfaceEnergy(float interval) {
+		while(true) {
+			float energy = myModel.getTotalEnergy(viscosity);
+			Debug.Log("Total surface energy: " + energy + " J");
+			yield return new WaitForSeconds(interval);
+		}
 	}
 }
