@@ -138,8 +138,8 @@ public class ModelSurface {
 
 	public void setPulseAtPoint(int xPos, int zPos, float pulseForce) {
 		if(!oscillatorMap[xPos, zPos]) {
-			vertVel[xPos, zPos] = -pulseForce;
-			vertPos[xPos, zPos] -= POSITION_THRESHOLD * 10;
+			vertVel[xPos, zPos] = pulseForce;
+			vertPos[xPos, zPos] += POSITION_THRESHOLD * 10;
 		}
 	}
 		
