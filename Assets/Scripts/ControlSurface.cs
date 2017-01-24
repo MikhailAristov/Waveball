@@ -50,6 +50,18 @@ public class ControlSurface : MonoBehaviour
 
 		// Create model
 		myModel = new ModelSurface ( gridSizeX, gridSizeZ );
+
+		// Check all obstacles
+		GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+		foreach(GameObject go in obstacles) {
+			if(go.transform.rotation.eulerAngles.magnitude > 0) {
+				Debug.LogWarning("Cannot put " + go.name + " on the wave obstacle map because it's rotated!");
+				continue;
+			}
+
+			addSquareObstacle(go.transform.position, go.transform.localScale);
+		}
+
 		// Launch updater
 		if(Debug.isDebugBuild) {
 			StartCoroutine(outputCurrentSurfaceEnergy(5f));
@@ -201,6 +213,28 @@ public class ControlSurface : MonoBehaviour
 			float energy = myModel.getTotalEnergy(viscosity);
 			Debug.Log("Total surface energy: " + energy + " J");
 			yield return new WaitForSeconds(interval);
+		}
+	}
+
+	public void addSquareObstacle(Vector3 center, Vector3 size) {
+		// Calculate the dimensions of the obstacle
+		float xStart = center.x - size.x / 2;
+		float xEnd = center.x + size.x / 2;
+		float zStart = center.z - size.z / 2;
+		float zEnd = center.z + size.z / 2;
+		// Set all obstacle points within the dimensions to true
+		float xPos; float zPos;
+		for(int x = 0; x < gridSizeX; x++) {
+			xPos = (x - Mathf.Floor(gridSizeX / 2)) * PANEL_SIZE;
+			for(int z = 0; z < gridSizeZ; z++) {
+				zPos = (z - Mathf.Floor(gridSizeZ / 2)) * PANEL_SIZE;
+
+				if(!myModel.obstactleMap[x, z] &&
+				   xPos >= xStart && xPos <= xEnd &&
+				   zPos >= zStart && zPos <= zEnd) {
+					myModel.obstactleMap[x, z] = true;
+				}
+			}
 		}
 	}
 }
