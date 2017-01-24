@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ModelSurface {
 
-	const float POSITION_THRESHOLD = 0.0000001f;
+	const float POSITION_THRESHOLD = 0.000001f;
 
 	public int gridSizeX;
 	public int gridSizeZ;
@@ -16,6 +16,9 @@ public class ModelSurface {
 
 	public bool[,] obstactleMap;
 	public bool[,] oscillatorMap;
+
+	private float totalEnergy;
+	private float sqrtOfTwo; // Performance optimization
 
 	public ModelSurface(int sizeX, int sizeZ) {
 		gridSizeX = sizeX;
@@ -32,6 +35,8 @@ public class ModelSurface {
 				obstactleMap[x, z] = (x == 0 || x == gridSizeX - 1 || z == 0 || z == gridSizeZ - 1);
 			}
 		}
+
+		sqrtOfTwo = Mathf.Sqrt(2f);
 	}
 
 	public void reset() {
@@ -49,24 +54,28 @@ public class ModelSurface {
 			}
 		}
 
+		totalEnergy = 0f;
 		for(int x = 0; x < gridSizeX; x++) {
 			for(int z = 0; z < gridSizeZ; z++) {
 				if(obstactleMap[x, z]) {
 					continue;
 				}
 
-				if(oscillatorMap[x, z]) {
+				if(oscillatorMap[x, z]) { // Oscillator points aren't affected by the dampening or neighboring points
 					float vertAcc = -springRateDividedByMass * vertPos[x, z];
 					vertVel[x, z] += vertAcc * deltaTime;
 					vertPos[x, z] += vertVel[x, z] * deltaTime;
-					continue;
-				}
-
-				if(Math.Abs(vertPos[x, z]) >= POSITION_THRESHOLD || getDeltaAtPoint(x, z) >= POSITION_THRESHOLD) {
+				// This this the normal case, the point moves:
+				} else if(Math.Abs(vertPos[x, z]) >= POSITION_THRESHOLD || Math.Abs(vertDeltas[x, z]) >= POSITION_THRESHOLD) {
 					float vertAcc = -springRateDividedByMass * vertPos[x, z] - dampening * vertVel[x, z];
 					vertVel[x, z] += vertAcc * deltaTime + wavePropagationSpeed * vertDeltas[x, z];
 					vertPos[x, z] += vertVel[x, z] * deltaTime;
+				} else { // Reset the point energy to zero if it's below the threshold
+					vertVel[x, z] = 0f;
+					vertPos[x, z] = 0f;
 				}
+
+				totalEnergy += springRateDividedByMass * vertPos[x, z] * vertPos[x, z] + vertVel[x, z] * vertVel[x, z];
 			}
 		}
 	}
@@ -83,14 +92,24 @@ public class ModelSurface {
 			lookAtIndexX = xPos + i;
 			for(int j = -1; j <= 1; j++) {
 				lookAtIndexZ = zPos + j;
-				distanceFactor = Mathf.Sqrt(Mathf.Abs(i) + Mathf.Abs(j));
+				switch(Mathf.Abs(i) + Mathf.Abs(j)) {
+				case 1:
+					distanceFactor = 1f;
+					break;
+				case 2:
+					distanceFactor = sqrtOfTwo;
+					break;
+				default:
+					distanceFactor = 0f;
+					break;
+				}
 
 				if(!obstactleMap[lookAtIndexX, lookAtIndexZ]) {
 					sumDelta += distanceFactor * vertPos[lookAtIndexX, lookAtIndexZ];
 				}
 			}
 		}
-		sumDelta /= (4 + 4 * Mathf.Sqrt(2)); // the sum has to be normalized to the sum of the distanceFactors 
+		sumDelta /= 4 * (1 + sqrtOfTwo); // the sum has to be normalized to the sum of the distanceFactors 
 		return (sumDelta - vertPos[xPos, zPos]);
 	}
 
@@ -138,14 +157,6 @@ public class ModelSurface {
 	}
 
 	public float getTotalEnergy(float springRate) {
-		float result = 0.0f;
-
-		for(int x = 0; x < gridSizeX; x++) {
-			for(int z = 0; z < gridSizeZ; z++) {
-				result += springRate * vertPos[x, z] * vertPos[x, z] + vertVel[x, z] * vertVel[x, z];
-			}
-		}
-
-		return result / 2;
+		return this.totalEnergy / 2;
 	}
 }
