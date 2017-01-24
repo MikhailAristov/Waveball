@@ -72,7 +72,7 @@ public class ControlSurface : MonoBehaviour
 			for ( int z = 0; z < gridSizeZ; z++ )
 			{
 				var trans = gridPanels[x, z].Model;
-				float scaleFactor = Mathf.Max ( 0f, PanelTextureSize + myModel.vertPos[x, z] / 2f );
+				float scaleFactor = Mathf.Max ( 0f, PanelTextureSize - myModel.vertPos[x, z] / 2f );
 				trans.localScale = new Vector3 ( scaleFactor, scaleFactor, 1f );
 
 				Vector3 gradient = myModel.getGradientAtPoint ( x, z );
