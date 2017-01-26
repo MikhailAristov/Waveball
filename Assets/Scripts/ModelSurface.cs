@@ -46,6 +46,8 @@ public class ModelSurface {
 		Array.Clear(oscillatorMap, 0, gridSizeX * gridSizeZ);
 	}
 
+	// The wave physics are based on this physical model:
+	// https://gamedevelopment.tutsplus.com/tutorials/make-a-splash-with-dynamic-2d-water-effects--gamedev-236
 	public void update(float deltaTime, float springRateDividedByMass, float dampening, float wavePropagationSpeed) {
 		// Propagation prepare
 		for(int x = 0; x < gridSizeX; x++) {
